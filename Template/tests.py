@@ -2,6 +2,7 @@ import unittest
 from solution import solver
 
 class getResults(unittest.TestCase):
+    pass
 
 if __name__ == '__main__':
     unittest.main()
