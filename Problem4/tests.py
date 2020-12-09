@@ -1,5 +1,5 @@
 import unittest
-from solution  import solver
+from solution import solver
 from solution import parsePuzzleInputFrom
 from solution import passport
 
