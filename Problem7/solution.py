@@ -37,34 +37,56 @@ def parseFile():
 def parsePuzzleInputFrom(file):
     result = []
     for line in file.readlines():
-        exit = False
-        line = line.strip('\n')
-        currentRule = rule()
-        
-        delimiter = line.find(' bags contain ')
-        bagColor = line[:delimiter]
-        currentRule.setContainer(bagColor) 
-        if line.find('no other bags') > -1:
-          exit = True  
+        noMoreBags, line, currentRule = initialize(line)
+        delimiter = createRuleAndGetDelimiter(line, currentRule) 
+        noMoreBags = thereAreNoBagsContained(line, noMoreBags)  
         line = line[delimiter+len(' bags contain '):]
-        while(not exit):
-            delimiter = line.find(' ')
-            count = line[:delimiter]
-            line = line[delimiter+1:]
-            delimiter = line.find(', ')
-            if delimiter == -1:
-                delimiter = line.find('.')
-                exit = True
-            bagDescription= line[:delimiter]
-            line = line[delimiter+len(', '):]
-            delimiter = bagDescription.find(' ')
-            bagColor = bagDescription[:delimiter]
-            bagDescription = bagDescription[delimiter+1:]
-            delimiter = bagDescription.find(' ')
-            bagColor =bagColor+' '+bagDescription[:delimiter]
+        while(not noMoreBags):
+            line, count = getCount(line)
+            delimiter, noMoreBags = getDelimiterForContainedBags(line, delimiter)
+            bagColor, line = getBagColor(line, delimiter)
             currentRule.addContained({'count' : int(count), 'bag' : bag(bagColor)})        
         result.append(currentRule)
     return result
+
+def getBagColor(line, delimiter):
+    bagDescription= line[:delimiter]
+    line = line[delimiter+len(', '):]
+    bagDescription, bagColor = getCount(bagDescription)
+    delimiter = bagDescription.find(' ')
+    bagColor =bagColor+' '+bagDescription[:delimiter]
+    return bagColor, line
+
+def thereAreNoBagsContained(line, result):
+    if line.find('no other bags') > -1:
+      result = True  
+    return result
+
+def getDelimiterForContainedBags(line, delimiter):
+    exit = False
+    delimiter = line.find(', ')
+    if delimiter == -1:
+        delimiter = line.find('.')
+        exit = True
+    return delimiter, exit
+
+def getCount(line):
+    delimiter = line.find(' ')
+    count = line[:delimiter]
+    line = line[delimiter+1:]
+    return line, count
+
+def createRuleAndGetDelimiter(line, currentRule):
+    delimiter = line.find(' bags contain ')
+    bagColor = line[:delimiter]
+    currentRule.setContainer(bagColor) 
+    return delimiter
+
+def initialize(line):
+    exit = False
+    line = line.strip('\n')
+    currentRule = rule()
+    return exit, line, currentRule
 
 if __name__ == '__main__':
     puzzleInput = parseFile( )
