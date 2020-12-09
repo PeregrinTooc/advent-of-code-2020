@@ -1,11 +1,43 @@
 class solver:
-    pass
+    def __init__(self, rules):
+      self.rules = rules
+      self.bagColors = []
+
+    def solve(self,bagColor)->int:
+        self.resolveHierarchy(bagColor)
+        return len(set(self.bagColors))
+   
+    def resolveHierarchy(self,bagColor):
+        for rule in self.rules:
+            for contained in rule.getContained():
+                if contained['bag'].getColor() == bagColor:
+                    self.bagColors.append(rule.getContainer().getColor())
+                    self.resolveHierarchy(rule.getContainer().getColor())
+
+    def countContainedFor(self,bagColor):
+        result = 0
+        currentRule = self.getRuleFor(bagColor)
+        for contained in currentRule.getContained():
+            result += contained['count']
+            result += ( contained['count']*self.countContainedFor(contained['bag'].getColor()) )
+        return result   
+
+    def getRuleFor(self, bagColor):
+        for rule in self.rules:
+            if bagColor == rule.getContainer().getColor():
+                return rule
+
+class bag:
+    def __init__(self,color):
+        self.color = color
+    def getColor(self)->str:
+        return self.color
 
 class rule:
     def __init__(self) -> None:
         self.contained = []
 
-    def getContainer(self):
+    def getContainer(self)->bag:
         return self.container
     
     def setContainer(self,color):
@@ -14,14 +46,9 @@ class rule:
     def addContained(self,contained):
         self.contained.append(contained)
 
-    def getContained(self):
+    def getContained(self) -> list:
         return self.contained
 
-class bag:
-    def __init__(self,color):
-        self.color = color
-    def getColor(self):
-        return self.color
 
 def parseFile():
     import os
@@ -90,5 +117,6 @@ def initialize(line):
 
 if __name__ == '__main__':
     puzzleInput = parseFile( )
-    print(solver(puzzleInput).solve())
+    print(solver(puzzleInput).solve("shiny gold"))
+    print(solver(puzzleInput).countContainedFor("shiny gold"))
 
