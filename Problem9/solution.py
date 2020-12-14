@@ -1,5 +1,11 @@
 class solver:
-    pass
+    def __init__(self,puzzleInput):
+        pass
+
+    def solve(self):
+        pass
+
+
 
 def parseFile():
     import os
@@ -13,7 +19,8 @@ def parseFile():
     return result
 
 def parsePuzzleInputFrom(file):
-    pass
+    return None
+    
 
 if __name__ == '__main__':
     puzzleInput = parseFile( )
