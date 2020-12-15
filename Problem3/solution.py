@@ -1,7 +1,9 @@
 class solver:
     def __init__(self, area):
         self.initialize(area)
-        self.numberOfEncounteredTrees = 0
+        self.setSlope()
+
+    def setSlope(self):
         self.stepsRight = 3
         self.stepsDown = 1
 
@@ -10,6 +12,7 @@ class solver:
         self.column = 0
         self.line = 0
         self.width = len(area[0])
+        self.numberOfEncounteredTrees = 0
 
     def step(self):
         self.column += self.stepsRight
