@@ -87,20 +87,26 @@ def parsePuzzleInputFrom(file):
     return result
 
 
+def getChangedProgram():
+    code = initialCode.copy()
+    codeDebgugger = codeFixer(code)
+    codeDebgugger.switchJmpAndNop(i)
+    code = codeDebgugger.getCode()
+    program = solver(code)
+    return program
+
+
 if __name__ == '__main__':
     initialCode = parseFile()
+    program = solver(initialCode)
     for i in range(len(initialCode)):
-        code = initialCode.copy()
-        codeDebgugger = codeFixer(code)
-        codeDebgugger.switchJmpAndNop(i)
-        code = codeDebgugger.getCode()
-        program = solver(code)
+        program = getChangedProgram()
         try:
             while True:
                 program.tick()
-        except repeatInstructionException:
-            continue
         except IndexError:
             break
+        except repeatInstructionException:
+            continue
 
     print(program.getAcc())
