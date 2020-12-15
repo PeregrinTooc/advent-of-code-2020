@@ -1,4 +1,12 @@
 {
+    "editor.formatOnSave": true,
+    "runOnSave.commands": [
+        {
+            "match": ".*\\.py",
+            "runIn": "terminal",
+            "command": "clear; python3 ${fileDirname}/tests.py  && git commit -am workin || git reset --hard"
+        },
+    ],
     "python.testing.unittestArgs": [
         "-v",
         "-s",
@@ -10,7 +18,16 @@
     "python.testing.nosetestsEnabled": false,
     "python.testing.unittestEnabled": true,
     "python.autoComplete.extraPaths": [
-        "./Problem1/solution.py"
+        "./Problem1/solution.py",
+        "./Problem2/solution.py",
+        "./Problem3/solution.py",
+        "./Problem4/solution.py",
+        "./Problem5/solution.py",
+        "./Problem6/solution.py",
+        "./Problem7/solution.py",
+        "./Problem8/solution.py",
+        "./Problem9/solution.py",
+        "./Problem10/solution.py"
     ],
     "python.analysis.extraPaths": [
         "./Problem1",
