@@ -46,9 +46,13 @@ class getResults(unittest.TestCase):
         except NoKeyException:
             self.assertEqual(line, 14)
 
-    def test_findContinuousSequenceAddingUpTo(self):
-        self.cut.findContinuousSequenceAddingUpTo(127)
-        pass
+    def test_findContinuousSequenceAddingUpTo127(self):
+        act = self.cut.findContinuousSequenceAddingUpTo(127)
+        self.assertListEqual(act, [15, 20, 20, 25, 47])
+
+    def test_findContinuousSequenceAddingUpTo60(self):
+        act = self.cut.findContinuousSequenceAddingUpTo(60)
+        self.assertListEqual(act, [15, 20, 25])
 
 
 class parsePuzzleInput(unittest.TestCase):

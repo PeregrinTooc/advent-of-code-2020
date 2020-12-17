@@ -36,7 +36,17 @@ class solver:
         raise NoKeyException()
 
     def findContinuousSequenceAddingUpTo(self, number):
-        pass
+        for i in range(len(self.numbers)):
+            candidate = [self.numbers[i]]
+            currentSum = self.numbers[i]
+            for j in range(i+1, len(self.numbers)):
+                currentSum += self.numbers[j]
+                candidate.append(self.numbers[j])
+                if currentSum == number:
+                    candidate.sort()
+                    return candidate
+                if currentSum > number:
+                    break
 
 
 def parseFile():
@@ -60,4 +70,8 @@ def parsePuzzleInputFrom(file):
 if __name__ == '__main__':
     puzzleInput = parseFile()
     print(solver(puzzleInput, 25).findVulnerableLine())
-    print(solver(puzzleInput, 25).solve())
+    soltn = solver(puzzleInput, 25).solve()
+    print(soltn)
+    listOfNumbers = solver(
+        puzzleInput, 25).findContinuousSequenceAddingUpTo(soltn)
+    print(listOfNumbers[0]+listOfNumbers[-1])
