@@ -1,14 +1,15 @@
 import unittest
-from solution  import solver
+from solution import solver
 from solution import parsePuzzleInputFrom
 from solution import seatParser
+
 
 class getRow(unittest.TestCase):
     def test_FBFBBFFRLR(self):
         actualRow = seatParser('FBFBBFFRLR').getRow()
         expectedRow = 44
         self.assertEqual(actualRow, expectedRow)
-    
+
     def test_FFFFFFFLLL(self):
         actualRow = seatParser('FFFFFFFLLL').getRow()
         expectedRow = 0
@@ -23,6 +24,7 @@ class getRow(unittest.TestCase):
         actualRow = seatParser('BBFFFFFLLL').getRow()
         expectedRow = 96
         self.assertEqual(actualRow, expectedRow)
+
 
 class getSeatNumber(unittest.TestCase):
     def test_FFFFFFFLLL(self):
@@ -40,14 +42,16 @@ class getSeatNumber(unittest.TestCase):
         expectedSeat = 2
         self.assertEqual(actualSeat, expectedSeat)
 
+
 class getSeatId(unittest.TestCase):
     def test_MultipleIds(self):
-        self.assertEqual(seatParser('FBFBBFFRLR').getSeatId(),357)
-        self.assertEqual(seatParser('BFFFBBFRRR').getSeatId(),567)
-        self.assertEqual(seatParser('FFFBBBFRRR').getSeatId(),119)
-        self.assertEqual(seatParser('BBFFBBFRLL').getSeatId(),820)
-        self.assertEqual(seatParser('FFFFFFFLLL').getSeatId(),0)
-        self.assertEqual(seatParser('BBBBBBBRRR').getSeatId(),1023)
+        self.assertEqual(seatParser('FBFBBFFRLR').getSeatId(), 357)
+        self.assertEqual(seatParser('BFFFBBFRRR').getSeatId(), 567)
+        self.assertEqual(seatParser('FFFBBBFRRR').getSeatId(), 119)
+        self.assertEqual(seatParser('BBFFBBFRLL').getSeatId(), 820)
+        self.assertEqual(seatParser('FFFFFFFLLL').getSeatId(), 0)
+        self.assertEqual(seatParser('BBBBBBBRRR').getSeatId(), 1023)
+
 
 class parseFile(unittest.TestCase):
     def setUp(self) -> None:
@@ -60,10 +64,14 @@ class parseFile(unittest.TestCase):
         file.close()
 
     def test_firstLine(self):
-        self.assertEqual('FBFBBFFRLR',self.parsed[0])
+        self.assertEqual('FBFBBFFRLR', self.parsed[0])
+
     def test_secondLine(self):
-        self.assertEqual('BFFFBBFRRR',self.parsed[1])
+        self.assertEqual('BFFFBBFRRR', self.parsed[1])
+
     def test_solver(self):
-        self.assertEqual(solver(self.parsed).solve(),820)
+        self.assertEqual(solver(self.parsed).solve(), 820)
+
+
 if __name__ == '__main__':
     unittest.main()
