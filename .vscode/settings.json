@@ -4,7 +4,7 @@
         {
             "match": ".*\\.py",
             "runIn": "terminal",
-            "command": "clear; python ${fileDirname}/tests.py  && git commit -am working  && git reset || git reset --hard"
+            "command": "clear; python3 ${fileDirname}/tests.py  && git commit -am working  && git reset || git reset --hard"
         },
     ],
     "python.testing.unittestArgs": [
