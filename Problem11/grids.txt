@@ -1,0 +1,19 @@
+LLLL    |   ####
+LLLL    |   ####
+LLLL    |   ####
+LLLL    |   ####
+---------------
+#LL#    |   #LL# 
+LLLL    |   LLLL
+LLLL    |   LLLL
+#LL#    |   #LL#
+
+.LLL    |   .###
+.LLL    |   .###
+.LLL    |   .###
+.LLL    |   .###
+---------------
+.#L#    |   
+.LLL    |   
+.LLL    |   
+.#L#    |   

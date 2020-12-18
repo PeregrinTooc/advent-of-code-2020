@@ -10,7 +10,7 @@
     "python.testing.unittestArgs": [
         "-v",
         "-s",
-        "./Problem8",
+        "./Problem11",
         "-p",
         "test*.py"
     ],
