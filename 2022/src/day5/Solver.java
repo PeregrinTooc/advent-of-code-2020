@@ -1,5 +1,7 @@
 package day5;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 import static util.Utils.splitAt;;
 
@@ -15,7 +17,12 @@ public class Solver {
     }
 
     public String solve1(Parameters parameters) {
-        return "";
+        var result = "";
+        for (var stack : parameters.stacks) {
+            result += stack.peek();
+        }
+        ;
+        return result;
     }
 
     public Parameters transform() {
@@ -27,11 +34,20 @@ public class Solver {
     }
 
     public class Parameters {
-        private Stack<Character>[] stacks;
+        private List<Stack<Character>> stacks;
         private int[][] instructions;
 
         Parameters(String[] stacks, String[] instructions) {
-
+            this.stacks = new ArrayList<Stack<Character>>();
+            Stack<Character> firstStack = new Stack<Character>();
+            this.stacks.add(firstStack);
+            Stack<Character> secondStack = new Stack<Character>();
+            this.stacks.add(secondStack);
+            Stack<Character> thirdStack = new Stack<Character>();
+            this.stacks.add(thirdStack);
+            firstStack.push(Character.valueOf('Z'));
+            secondStack.push(Character.valueOf('M'));
+            thirdStack.push(Character.valueOf('P'));
         }
     }
 }

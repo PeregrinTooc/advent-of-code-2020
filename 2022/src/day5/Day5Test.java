@@ -37,10 +37,10 @@ public class Day5Test {
     @Test
     void shouldProjectInstructions() {
         var solver = new Solver();
-        var stacks = new String[] {};
+        var stacks = new String[] { "[Z] [M] [P]", "1   2   3 " };
         var instructions = new String[] {};
         var parameters = solver.new Parameters(stacks, instructions);
-        assertEquals("", solver.solve1(parameters));
+        assertEquals("ZMP", solver.solve1(parameters));
     }
 
 }
