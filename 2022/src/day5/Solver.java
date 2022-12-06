@@ -17,7 +17,6 @@ public class Solver {
     }
 
     public String solve1(Parameters parameters) {
-        var result = "";
         var stacks = parameters.stacks;
         for (var instruction : parameters.instructions) {
             for (int i = instruction[0]; i-- > 0;) {
@@ -25,15 +24,10 @@ public class Solver {
                 stacks.get(instruction[2] - 1).push(crate);
             }
         }
-        for (var stack : stacks) {
-            result += (stack.isEmpty() ? " " : stack.peek());
-        }
-        ;
-        return result;
+        return findTopRow(stacks);
     }
 
     public Object solve2(Parameters parameters) {
-        var result = "";
         var stacks = parameters.stacks;
         for (var instruction : parameters.instructions) {
             Stack<Character> buffer = new Stack<Character>();
@@ -45,6 +39,11 @@ public class Solver {
                 stacks.get(instruction[2] - 1).push(buffer.pop());
             }
         }
+        return findTopRow(stacks);
+    }
+
+    private String findTopRow(List<Stack<Character>> stacks) {
+        var result = "";
         for (var stack : stacks) {
             result += (stack.isEmpty() ? " " : stack.peek());
         }
