@@ -18,8 +18,35 @@ public class Solver {
 
     public String solve1(Parameters parameters) {
         var result = "";
-        for (var stack : parameters.stacks) {
-            result += stack.peek();
+        var stacks = parameters.stacks;
+        for (var instruction : parameters.instructions) {
+            for (int i = instruction[0]; i-- > 0;) {
+                var crate = stacks.get(instruction[1] - 1).pop();
+                stacks.get(instruction[2] - 1).push(crate);
+            }
+        }
+        for (var stack : stacks) {
+            result += (stack.isEmpty() ? " " : stack.peek());
+        }
+        ;
+        return result;
+    }
+
+    public Object solve2(Parameters parameters) {
+        var result = "";
+        var stacks = parameters.stacks;
+        for (var instruction : parameters.instructions) {
+            Stack<Character> buffer = new Stack<Character>();
+            for (int i = instruction[0]; i-- > 0;) {
+                var crate = stacks.get(instruction[1] - 1).pop();
+                buffer.push(crate);
+            }
+            for (int i = buffer.size(); i-- > 0;) {
+                stacks.get(instruction[2] - 1).push(buffer.pop());
+            }
+        }
+        for (var stack : stacks) {
+            result += (stack.isEmpty() ? " " : stack.peek());
         }
         ;
         return result;
@@ -27,7 +54,7 @@ public class Solver {
 
     public Parameters transform() {
         var stacks = splitAt(input).get(0);
-        var instructions = splitAt(input).get(0);
+        var instructions = splitAt(input).get(1);
         return new Parameters(
                 stacks.toArray(new String[] { "" }),
                 instructions.toArray(new String[] { "" }));
@@ -38,16 +65,54 @@ public class Solver {
         private int[][] instructions;
 
         Parameters(String[] stacks, String[] instructions) {
+            createStacks(stacks);
+            createInstructions(instructions);
+        }
+
+        private void createInstructions(String[] instructions) {
+            this.instructions = new int[instructions.length][3];
+            if (instructions.length == 0) {
+                return;
+            }
+            for (int i = 0; i < instructions.length; i++) {
+                this.instructions[i] = new int[] {
+                        Integer.valueOf(instructions[i].split(" ")[1]),
+                        Integer.valueOf(instructions[i].split(" ")[3]),
+                        Integer.valueOf(instructions[i].split(" ")[5]) };
+            }
+        }
+
+        private void createStacks(String[] stacks) {
+            initializeStacks(stacks);
+            fillStacks(stacks);
+        }
+
+        private void fillStacks(String[] stacks) {
+            for (int j = stacks.length - 1; j-- > 0;) {
+                var row = stacks[j];
+                for (int i = 0; i < this.stacks.size(); i++) {
+                    Character crate = Character.valueOf(row.charAt(4 * i + 1));
+                    if (crate.charValue() == ' ')
+                        continue;
+                    this.stacks.get(i)
+                            .push(crate);
+                }
+            }
+        }
+
+        private void initializeStacks(String[] stacks) {
             this.stacks = new ArrayList<Stack<Character>>();
-            Stack<Character> firstStack = new Stack<Character>();
-            this.stacks.add(firstStack);
-            Stack<Character> secondStack = new Stack<Character>();
-            this.stacks.add(secondStack);
-            Stack<Character> thirdStack = new Stack<Character>();
-            this.stacks.add(thirdStack);
-            firstStack.push(Character.valueOf('Z'));
-            secondStack.push(Character.valueOf('M'));
-            thirdStack.push(Character.valueOf('P'));
+            int numberOfStacks = parseNumberOfStacks(stacks);
+            for (int i = numberOfStacks; i-- > 0;) {
+                this.stacks.add(new Stack<Character>());
+            }
+        }
+
+        private int parseNumberOfStacks(String[] stacks) {
+            var temp = stacks[stacks.length - 1].split(" ");
+            int numberOfStacks = Integer.valueOf(temp[temp.length - 1]);
+            return numberOfStacks;
         }
     }
+
 }
