@@ -1,7 +1,6 @@
 package day5;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,16 +9,16 @@ import java.net.URL;
 
 import util.Utils;
 
-public class Day5Test {
+public class allTests {
     static File testFile = null;
     static File realFile = null;
     private Solver solver = new Solver();
 
     @BeforeAll
     static void classSetUp() {
-        URL path = Day5Test.class.getResource("test.txt");
+        URL path = allTests.class.getResource("test.txt");
         testFile = new File(path.getFile());
-        path = Day5Test.class.getResource("input.txt");
+        path = allTests.class.getResource("input.txt");
         realFile = new File(path.getFile());
     }
 

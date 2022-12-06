@@ -11,16 +11,16 @@ import java.net.URL;
 
 import util.Utils;
 
-class Day1Test {
+class allTests {
   static File file = null;
   static File realInput = null;
   Solver solver;
 
   @BeforeAll
   public static void classSetUp() {
-    URL path = Day1Test.class.getResource("test.txt");
+    URL path = allTests.class.getResource("test.txt");
     file = new File(path.getFile());
-    path = Day1Test.class.getResource("input.txt");
+    path = allTests.class.getResource("input.txt");
     realInput = new File(path.getFile());
   }
 

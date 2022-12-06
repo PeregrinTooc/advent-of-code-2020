@@ -9,16 +9,16 @@ import java.net.URL;
 
 import util.Utils;
 
-public class Day3Test {
+public class allTests {
     static File testFile = null;
     static File realFile = null;
     Solver solver = null;
 
     @BeforeAll
     static void classSetUp() {
-        URL path = Day3Test.class.getResource("test.txt");
+        URL path = allTests.class.getResource("test.txt");
         testFile = new File(path.getFile());
-        path = Day3Test.class.getResource("input.txt");
+        path = allTests.class.getResource("input.txt");
         realFile = new File(path.getFile());
     }
 
