@@ -1,7 +1,6 @@
 package day6;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,7 +12,6 @@ import util.Utils;
 public class allTests {
     static File testFile = null;
     static File realFile = null;
-    private Solver solver = new Solver();
 
     @BeforeAll
     static void classSetUp() {
