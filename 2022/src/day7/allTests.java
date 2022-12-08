@@ -27,8 +27,8 @@ public class allTests {
     @Disabled
     void acceptance() {
         String[] input = Utils.transform(testFile);
-        var fileSystem = solver.parseAndGetFileSystem();
         var solver = new Solver(input);
+        var fileSystem = solver.parseAndGetFileSystem();
         assertEquals(95437, solver.solve1(fileSystem));
         // assertEquals(95437, solver.solve2(fileSystem));
         input = Utils.transform(realFile);
@@ -43,7 +43,7 @@ public class allTests {
         String[] input = new String[] { "$ cd /", "$ ls" };
         var solver = new Solver(input);
         var fileSystem = solver.parseAndGetFileSystem();
-        var accumulator = new AccumulatorImpl();
+        var accumulator = new Accumulator();
         fileSystem.getSize(accumulator);
         accumulator.assertIs(0);
     }
@@ -53,7 +53,7 @@ public class allTests {
         String[] input = new String[] { "$ cd /", "$ ls", "2 b" };
         var solver = new Solver(input);
         var fileSystem = solver.parseAndGetFileSystem();
-        var accumulator = new AccumulatorImpl();
+        var accumulator = new Accumulator();
         fileSystem.getSize(accumulator);
         accumulator.assertIs(2);
     }
@@ -63,7 +63,7 @@ public class allTests {
         String[] input = new String[] { "$ cd /", "$ ls", "2 b", "3 c" };
         var solver = new Solver(input);
         var fileSystem = solver.parseAndGetFileSystem();
-        var accumulator = new AccumulatorImpl();
+        var accumulator = new Accumulator();
         fileSystem.getSize(accumulator);
         accumulator.assertIs(5);
     }
@@ -77,16 +77,40 @@ public class allTests {
                 "3 c" };
         var solver = new Solver(input);
         var fileSystem = solver.parseAndGetFileSystem();
-        var accumulator = new AccumulatorImpl();
+        var accumulator = new Accumulator();
         fileSystem.getSize(accumulator);
         accumulator.assertIs(5);
         Solver.Directory directory = fileSystem.navigateTo("a");
-        accumulator = new AccumulatorImpl();
+        accumulator = new Accumulator();
         directory.getSize(accumulator);
         accumulator.assertIs(3);
     }
 
-    private class AccumulatorImpl implements Accumulator {
+    @Test
+    void TwoSubDirectories() {
+        String[] input = new String[] {
+                "$ cd /", "$ ls",
+                "2 a", "dir b", "dir c",
+                "$ cd b", "$ ls",
+                "3 d",
+                "$ cd ..", "$ cd c", "$ ls",
+                "4 e.txt" };
+        var solver = new Solver(input);
+        var fileSystem = solver.parseAndGetFileSystem();
+        var accumulator = new Accumulator();
+        fileSystem.getSize(accumulator);
+        accumulator.assertIs(9);
+        Solver.Directory directory = fileSystem.navigateTo("b");
+        accumulator = new Accumulator();
+        directory.getSize(accumulator);
+        accumulator.assertIs(3);
+        directory = fileSystem.navigateTo("c");
+        accumulator = new Accumulator();
+        directory.getSize(accumulator);
+        accumulator.assertIs(4);
+    }
+
+    private class Accumulator implements SizableInfo {
         private int value = 0;
 
         public void assertIs(int i) {
@@ -94,7 +118,7 @@ public class allTests {
         }
 
         @Override
-        public void incrementBy(Integer size) {
+        public void size(Integer size) {
             value += size;
         }
     }

@@ -1,6 +1,7 @@
 package day7;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Solver {
@@ -19,9 +20,12 @@ public class Solver {
             if (s.matches("[0-9](.*)")) {
                 currentDir.addFile(new File(s));
             }
-            // if (s.matches("dir ")) {
-            // currentDir.addDirectory(new Directory(s));
-            // }
+            if (s.matches("dir (.*)")) {
+                currentDir.addDirectory(s.split(" ")[1]);
+            }
+            if (s.matches("\\$ cd (.*)")) {
+                currentDir = currentDir.navigateTo(s.split(" ")[2]);
+            }
         }
         return fileSystem;
     }
@@ -40,8 +44,8 @@ public class Solver {
         }
 
         @Override
-        public void getSize(Accumulator AccuIn) {
-            root.getSize(AccuIn);
+        public void getSize(SizableInfo infoCollector) {
+            root.getSize(infoCollector);
         }
 
         @Override
@@ -53,16 +57,29 @@ public class Solver {
     public class Directory implements Sizeable, Navigatable {
 
         private List<File> files = new ArrayList<File>();
+        private HashMap<String, Directory> subDirectories = new HashMap<String, Directory>();
+        private Directory superDirectory;
 
         public Directory(String s) {
         }
 
-        @Override
-        public Directory navigateTo(String directoryName) {
-            return null;
+        public Directory(String s, Directory superDirectory) {
+            this.superDirectory = superDirectory;
+
         }
 
-        public void addDirectory(Directory directory) {
+        @Override
+        public Directory navigateTo(String directoryName) {
+            if (directoryName.equals("..")) {
+                return superDirectory;
+            }
+            return subDirectories.get(directoryName);
+        }
+
+        public Directory addDirectory(String name) {
+            Directory sub = new Directory(name, this);
+            subDirectories.put(name, sub);
+            return sub;
         }
 
         public void addFile(File file) {
@@ -70,10 +87,12 @@ public class Solver {
         }
 
         @Override
-        public void getSize(Accumulator accuIn) {
+        public void getSize(SizableInfo infoCollector) {
             for (File file : files) {
-                file.getSize(accuIn);
+                file.getSize(infoCollector);
             }
+            // files.forEach(file -> file.getSize(infoCollector));
+            subDirectories.forEach((name, dir) -> dir.getSize(infoCollector));
         }
 
     }
@@ -85,8 +104,8 @@ public class Solver {
             this.size = Integer.valueOf(file.split(" ")[0]);
         }
 
-        public void getSize(Accumulator accuIn) {
-            accuIn.incrementBy(size);
+        public void getSize(SizableInfo accuIn) {
+            accuIn.size(size);
         }
     }
 
