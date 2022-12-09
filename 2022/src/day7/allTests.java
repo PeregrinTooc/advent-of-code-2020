@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import java.io.File;
 import java.net.URL;
 
@@ -24,18 +26,17 @@ public class allTests {
     }
 
     @Test
-    @Disabled
     void acceptance() {
         String[] input = Utils.transform(testFile);
         var solver = new Solver(input);
         var fileSystem = solver.parseAndGetFileSystem();
         assertEquals(95437, solver.solve1(fileSystem));
-        // assertEquals(95437, solver.solve2(fileSystem));
+        assertEquals(24933642, solver.solve2(fileSystem));
         input = Utils.transform(realFile);
         solver = new Solver(input);
         fileSystem = solver.parseAndGetFileSystem();
-        assertEquals(0, solver.solve1(fileSystem));
-        // assertEquals(859, new Solver(input).solve2());
+        assertEquals(1915606, solver.solve1(fileSystem));
+        assertEquals(5025657, solver.solve2(fileSystem));
     }
 
     @Test
@@ -87,7 +88,24 @@ public class allTests {
     }
 
     @Test
-    void TwoSubDirectories() {
+    void subSubDirectoryMap() {
+        String[] input = new String[] {
+                "$ cd /", "$ ls",
+                "dir a",
+                "$ cd a", "$ ls", "dir d",
+                "$ cd d", };
+        var solver = new Solver(input);
+        var fileSystem = solver.parseAndGetFileSystem();
+        var mapCreator = solver.new MapCreatorImpl();
+        fileSystem.createMap(mapCreator);
+        mapCreator.iterator().next();
+        mapCreator.iterator().next();
+        mapCreator.iterator().next();
+        assertFalse(mapCreator.iterator().hasNext());
+    }
+
+    @Test
+    void twoSubDirectories() {
         String[] input = new String[] {
                 "$ cd /", "$ ls",
                 "2 a", "dir b", "dir c",
@@ -110,16 +128,34 @@ public class allTests {
         accumulator.assertIs(4);
     }
 
-    private class Accumulator implements SizableInfo {
-        private int value = 0;
-
-        public void assertIs(int i) {
-            assertEquals(i, value);
-        }
-
-        @Override
-        public void size(Integer size) {
-            value += size;
-        }
+    @Test
+    void createDirectoryMap() {
+        String[] input = new String[] {
+                "$ cd /", "$ ls",
+                "dir b", "dir c",
+                "$ cd b", "$ cd ..", "$ cd c" };
+        var solver = new Solver(input);
+        var fileSystem = solver.parseAndGetFileSystem();
+        var mapCreator = solver.new MapCreatorImpl();
+        fileSystem.createMap(mapCreator);
+        mapCreator.iterator().next();
+        mapCreator.iterator().next();
+        mapCreator.iterator().next();
+        assertFalse(mapCreator.iterator().hasNext());
     }
+
+    @Test
+    void solver1() {
+        String[] input = new String[] {
+                "$ cd /", "$ ls",
+                "90000 a", "dir b", "dir c",
+                "$ cd b", "$ ls",
+                "20000 d",
+                "$ cd ..", "$ cd c", "$ ls",
+                "30000 e.txt" };
+        var solver = new Solver(input);
+        var fileSystem = solver.parseAndGetFileSystem();
+        assertEquals(50000, solver.solve1(fileSystem));
+    }
+
 }

@@ -1,8 +1,11 @@
 package day7;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class Solver {
 
@@ -10,6 +13,35 @@ public class Solver {
 
     public Solver(String[] input) {
         this.input = input;
+    }
+
+    public Object solve1(FileSystem fileSystem) {
+        Solver.SizeLimitedInfoCollector infoCollector = new Solver.SizeLimitedInfoCollector();
+        MapCreatorImpl mapCreator = new MapCreatorImpl();
+        fileSystem.createMap(mapCreator);
+        while (mapCreator.iterator().hasNext()) {
+            var directorySizeInfoCollector = new Accumulator();
+            mapCreator.iterator().next().getSize(directorySizeInfoCollector);
+            directorySizeInfoCollector.size(infoCollector);
+        }
+        return infoCollector.getSize();
+    };
+
+    public int solve2(FileSystem fileSystem) {
+        ArrayList<Integer> sizes = new ArrayList<Integer>();
+        MapCreatorImpl mapCreator = new MapCreatorImpl();
+        fileSystem.createMap(mapCreator);
+        Accumulator infoCollector = new Accumulator();
+        fileSystem.getRoot().getSize(infoCollector);
+        while (mapCreator.hasNext()) {
+            Accumulator directorySizeInfo = new Accumulator();
+            mapCreator.next().getSize(directorySizeInfo);
+            if (70000000 - infoCollector.getSize() + directorySizeInfo.getSize() > 30000000) {
+                sizes.add(directorySizeInfo.getSize());
+            }
+        }
+        sizes.sort(null);
+        return sizes.get(0);
     }
 
     public Solver.FileSystem parseAndGetFileSystem() {
@@ -28,6 +60,32 @@ public class Solver {
             }
         }
         return fileSystem;
+    }
+
+    public class MapCreatorImpl implements MapCreator, Iterator<Directory> {
+        private List<Directory> directories = new ArrayList<Directory>();
+        private ListIterator<Directory> iterator = directories.listIterator();
+
+        @Override
+        public Iterator<Directory> iterator() {
+            return this;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return iterator.hasPrevious();
+        }
+
+        @Override
+        public Directory next() {
+            return iterator.previous();
+        }
+
+        @Override
+        public void addDirectory(Directory dir) {
+            iterator.add(dir);
+        }
+
     }
 
     public class FileSystem implements Sizeable, Navigatable {
@@ -51,6 +109,11 @@ public class Solver {
         @Override
         public Directory navigateTo(String directoryName) {
             return root.navigateTo(directoryName);
+        }
+
+        @Override
+        public void createMap(MapCreator MapCreator) {
+            this.root.createMap(MapCreator);
         }
     }
 
@@ -88,11 +151,14 @@ public class Solver {
 
         @Override
         public void getSize(SizableInfo infoCollector) {
-            for (File file : files) {
-                file.getSize(infoCollector);
-            }
-            // files.forEach(file -> file.getSize(infoCollector));
+            files.forEach(file -> file.getSize(infoCollector));
             subDirectories.forEach((name, dir) -> dir.getSize(infoCollector));
+        }
+
+        @Override
+        public void createMap(MapCreator MapCreator) {
+            MapCreator.addDirectory(this);
+            subDirectories.forEach((name, dir) -> dir.createMap(MapCreator));
         }
 
     }
@@ -109,8 +175,22 @@ public class Solver {
         }
     }
 
-    public Object solve1(FileSystem fileSystem) {
-        return null;
-    };
+    public class SizeLimitedInfoCollector implements SizableInfo {
+        private int size = 0;
+
+        @Override
+        public void size(Integer size) {
+            this.size += (size < 100000 ? size : 0);
+        }
+
+        public int getSize() {
+            return size;
+        }
+
+        @Override
+        public void size(SizableInfo sizableInfo) {
+            sizableInfo.size(size);
+        }
+    }
 
 }
