@@ -1,4 +1,4 @@
-package template;
+package day8;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
