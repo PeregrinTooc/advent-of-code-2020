@@ -1,7 +1,6 @@
 package day8;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import util.Utils;
 
@@ -32,14 +31,13 @@ public class allTests {
     }
 
     @Test
-    @Disabled
     void acceptance() {
         String[] input = Utils.transform(testFile);
         assertSolution1(input, 21);
         assertSolution2(input, 8);
         input = Utils.transform(realFile);
         assertSolution1(input, 1560);
-        // assertEquals(859, new Solver(input).solve2());
+        assertSolution2(input, 252000);
 
     }
 
@@ -67,6 +65,8 @@ public class allTests {
         assertSolution1(new String[]{"00000", "01210", "02320", "01210", "00000"}, 25);
         assertSolution1(new String[]{"00300", "01310", "32323", "01310", "00300"}, 24);
         assertSolution1(new String[]{"99999", "91319", "92329", "91319", "99999"}, 16);
+        assertSolution2(new String[]{"00000", "01210", "02320", "01210", "00000"}, 16);
+        assertSolution2(new String[]{"00300", "01310", "33333", "01310", "00300"}, 4);
     }
 
 

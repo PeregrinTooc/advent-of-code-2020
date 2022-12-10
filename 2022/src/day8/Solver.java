@@ -22,16 +22,72 @@ public class Solver {
         int result = 2 * this.mapOfTrees.length + 2 * (this.mapOfTrees.length - 2);
         for (int i = 1; i < this.mapOfTrees.length - 1; i++) {
             for (int j = 1; j < this.mapOfTrees.length - 1; j++) {
-                if (isBiggerThanSurroundings(i, j))
-                    result += 1;
+                if (isBiggerThanSurroundings(i, j)) result += 1;
+            }
+        }
+        return result;
+    }
+
+    public int solve2() {
+        int result = 0;
+        for (int i = 1; i < mapOfTrees.length; i++) {
+            for (int j = 0; j < mapOfTrees.length; j++) {
+                result = (calculateScenicViewFor(i, j) < result ? result : calculateScenicViewFor(i, j));
+            }
+        }
+        return result;
+    }
+
+    private int calculateScenicViewFor(int i, int j) {
+        return numberOfVisibleTreesAbove(i, j) * numberOfVisibleTreesBelow(i, j) * numberOfVisibleTreesToRight(i, j) * numberOfVisibleTreesToLeft(i, j);
+    }
+
+    private int numberOfVisibleTreesBelow(int i, int j) {
+        int result = 0;
+        for (int k = i - 1; k >= 0; k--) {
+            result++;
+            if (mapOfTrees[i][j] <= mapOfTrees[k][j]) {
+                break;
+            }
+        }
+        return result;
+    }
+
+    private int numberOfVisibleTreesToRight(int i, int j) {
+        int result = 0;
+        for (int k = j + 1; k < mapOfTrees.length; k++) {
+            result++;
+            if (mapOfTrees[i][j] <= mapOfTrees[i][k]) {
+                break;
+            }
+        }
+        return result;
+    }
+
+    private int numberOfVisibleTreesToLeft(int i, int j) {
+        int result = 0;
+        for (int k = j - 1; k >= 0; k--) {
+            result++;
+            if (mapOfTrees[i][j] <= mapOfTrees[i][k]) {
+                break;
+            }
+        }
+        return result;
+    }
+
+    private int numberOfVisibleTreesAbove(int i, int j) {
+        int result = 0;
+        for (int k = i + 1; k < mapOfTrees.length; k++) {
+            result++;
+            if (mapOfTrees[k][j] >= mapOfTrees[i][j]) {
+                break;
             }
         }
         return result;
     }
 
     private boolean isBiggerThanSurroundings(int i, int j) {
-        return isBiggerThanAllLeft(i, j) || isBiggerThanAllRight(i, j)
-                || isBiggerThanAllAbove(i, j) || isBiggerThanAllBelow(i, j);
+        return isBiggerThanAllLeft(i, j) || isBiggerThanAllRight(i, j) || isBiggerThanAllAbove(i, j) || isBiggerThanAllBelow(i, j);
     }
 
     private boolean isBiggerThanAllBelow(int i, int j) {
@@ -70,7 +126,5 @@ public class Solver {
         return true;
     }
 
-    public int solve2() {
-        return 0;
-    }
+
 }
