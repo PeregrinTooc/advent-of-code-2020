@@ -1,12 +1,10 @@
 package day8;
 
-import org.jetbrains.annotations.NotNull;
-
 public class Solver {
 
     private final int[][] mapOfTrees;
 
-    public Solver(final String @NotNull [] input) {
+    public Solver(final String[] input) {
         mapOfTrees = new int[input.length][input.length];
         for (int i = 0; i < mapOfTrees.length; i++) {
             for (int j = 0; j < mapOfTrees[i].length; j++) {
@@ -22,7 +20,8 @@ public class Solver {
         int result = 2 * this.mapOfTrees.length + 2 * (this.mapOfTrees.length - 2);
         for (int i = 1; i < this.mapOfTrees.length - 1; i++) {
             for (int j = 1; j < this.mapOfTrees.length - 1; j++) {
-                if (isBiggerThanSurroundings(i, j)) result += 1;
+                if (isBiggerThanSurroundings(i, j))
+                    result += 1;
             }
         }
         return result;
@@ -39,7 +38,8 @@ public class Solver {
     }
 
     private int calculateScenicViewFor(int i, int j) {
-        return numberOfVisibleTreesAbove(i, j) * numberOfVisibleTreesBelow(i, j) * numberOfVisibleTreesToRight(i, j) * numberOfVisibleTreesToLeft(i, j);
+        return numberOfVisibleTreesAbove(i, j) * numberOfVisibleTreesBelow(i, j) * numberOfVisibleTreesToRight(i, j)
+                * numberOfVisibleTreesToLeft(i, j);
     }
 
     private int numberOfVisibleTreesBelow(int i, int j) {
@@ -87,7 +87,8 @@ public class Solver {
     }
 
     private boolean isBiggerThanSurroundings(int i, int j) {
-        return isBiggerThanAllLeft(i, j) || isBiggerThanAllRight(i, j) || isBiggerThanAllAbove(i, j) || isBiggerThanAllBelow(i, j);
+        return isBiggerThanAllLeft(i, j) || isBiggerThanAllRight(i, j) || isBiggerThanAllAbove(i, j)
+                || isBiggerThanAllBelow(i, j);
     }
 
     private boolean isBiggerThanAllBelow(int i, int j) {
@@ -125,6 +126,5 @@ public class Solver {
         }
         return true;
     }
-
 
 }
