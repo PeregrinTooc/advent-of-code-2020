@@ -24,7 +24,6 @@ public class allTests {
     }
 
     @Test
-    @Disabled
     void acceptance() {
 
         String[] input = Utils.transform(testFile);
@@ -37,17 +36,32 @@ public class allTests {
     }
 
     @Test
-    void lessThanThreeInstructions() {
+    void noOverlaps() {
         assertCount(new String[] {}, 1);
         assertCount(new String[] { "R 1" }, 1);
         assertCount(new String[] { "R 2" }, 2);
         assertCount(new String[] { "R 2", "U 1" }, 2);
         assertCount(new String[] { "R 2", "U 2" }, 3);
+        assertCount(new String[] { "R 2", "U 2", "R 2" }, 4);
+    }
+
+    @Test
+    void backAndForth() {
+        assertCount(new String[] { "R 2", "U 1", "L 1" }, 2);
+        assertCount(new String[] { "R 2", "U 1", "L 2" }, 2);
+    }
+
+    @Test
+    void incrementalAcceptance() {
+        assertCount(new String[] { "R 4" }, 4);
+        assertCount(new String[] { "R 4", "U 4" }, 7);
+        assertCount(new String[] { "R 4", "U 4", "L 3" }, 9);
+        assertCount(new String[] { "R 4", "U 4", "L 3", "D 1" }, 9);
+        assertCount(new String[] { "R 4", "U 4", "L 3", "D 1", "R 4" }, 9);
     }
 
     private void assertCount(String[] input, int expectedResult) {
-        Solver.mapOfHeadAndTail map = new Solver(input).new mapOfHeadAndTail();
-        assertEquals(expectedResult, map.countTouchedSpots());
+        assertEquals(expectedResult, new Solver(input).solve1());
     }
 
 }
