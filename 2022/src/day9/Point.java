@@ -51,7 +51,7 @@ class Point {
             return this.shift(Direction.DOWN);
         }
         if (this.isStrictRightOf(other)) {
-            return this.shift(Direction.RIGHT);
+            return this.shift(Direction.LEFT);
         }
         if (this.isLeftBelow(other)) {
             return this.shift(Direction.UP).shift(Direction.RIGHT);

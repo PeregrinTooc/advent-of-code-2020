@@ -30,7 +30,7 @@ public class allTests {
         assertEquals(13, new Solver(input).solve1());
         // assertEquals(4, new Solver(input).solve2());
         input = Utils.transform(realFile);
-        // assertEquals(498, new Solver(input).solve1());
+        assertEquals(498, new Solver(input).solve1());
         // assertEquals(859, new Solver(input).solve2());
 
     }
@@ -57,7 +57,7 @@ public class allTests {
         assertCount(new String[] { "R 4", "U 4" }, 7);
         assertCount(new String[] { "R 4", "U 4", "L 3" }, 9);
         assertCount(new String[] { "R 4", "U 4", "L 3", "D 1" }, 9);
-        assertCount(new String[] { "R 4", "U 4", "L 3", "D 1", "R 4" }, 9);
+        assertCount(new String[] { "R 4", "U 4", "L 3", "D 1", "R 4" }, 10);
     }
 
     private void assertCount(String[] input, int expectedResult) {
