@@ -1,4 +1,4 @@
-package template;
+package day11;
 
 import day10.Solver;
 import org.junit.jupiter.api.BeforeAll;
