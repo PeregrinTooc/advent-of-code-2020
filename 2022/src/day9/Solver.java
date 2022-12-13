@@ -36,7 +36,12 @@ public class Solver {
         Set<Point> tailPositions = new HashSet<Point>();
 
         public mapOfHeadAndTail() {
+            this(2);
+        }
+
+        public mapOfHeadAndTail(int ropelength) {
             tailPositions.add(tailPosition);
+
         }
 
         public int countTouchedSpots() {
