@@ -41,7 +41,7 @@ public class allTests {
     }
 
     @Test
-    void firstTest() {
+    void oneMonkey() {
         input = new ArrayList<List<String>>();
         input.add(Arrays.asList(new String[] { "Monkey 0:",
                 "Starting items: 79, 98",
@@ -50,14 +50,66 @@ public class allTests {
                 "  If true: throw to monkey 0",
                 "  If false: throw to monkey 0" }));
         var monkeyBusiness = new Solver(input).createMonkeyBusiness();
+        TargetTest targetTest = new TargetTest(23);
+        Operation operation = Operation.create('*', 19);
+        Monkey theMonkey = Monkey.create(new Integer[] { 79, 98 }, operation, targetTest);
+        targetTest.setTargets(theMonkey, theMonkey);
         assertTrue(monkeyBusiness.equals(MonkeyBusiness.createFromMonkeys(
                 new Monkey[] {
-                        Monkey.create(new Integer[] { 79, 98 }, Operation.create('*', 19), new TargetTest(23)) })));
+                        theMonkey })));
         monkeyBusiness.tick();
         assertTrue(monkeyBusiness.equals(MonkeyBusiness.createFromMonkeys(
                 new Monkey[] {
-                        Monkey.create(new Integer[] { 500, 620 }, Operation.create('*', 19), new TargetTest(23)) })));
+                        Monkey.create(new Integer[] { 500, 620 }, operation, targetTest) })));
+        input.clear();
+        input.add(Arrays.asList(new String[] { "Monkey 0:",
+                "Starting items: 10, 20",
+                "Operation: new = old + 10",
+                "Test: divisible by 5",
+                "  If true: throw to monkey 0",
+                "  If false: throw to monkey 0" }));
+        monkeyBusiness = new Solver(input).createMonkeyBusiness();
+        targetTest = new TargetTest(5);
+        operation = Operation.create('+', 10);
+        assertTrue(monkeyBusiness.equals(MonkeyBusiness.createFromMonkeys(
+                new Monkey[] {
+                        Monkey.create(new Integer[] { 10, 20 }, operation, targetTest) })));
+        monkeyBusiness.tick();
+        assertTrue(monkeyBusiness.equals(MonkeyBusiness.createFromMonkeys(
+                new Monkey[] {
+                        Monkey.create(new Integer[] { 6, 10 }, operation, targetTest) })));
+    }
 
+    @Test
+    void TwoMonkeys() {
+        input = new ArrayList<List<String>>();
+        input.add(Arrays.asList(new String[] { "Monkey 0:",
+                "Starting items: 79, 98",
+                "Operation: new = old * 19",
+                "Test: divisible by 50",
+                "  If true: throw to monkey 1",
+                "  If false: throw to monkey 0" }));
+        input.add(Arrays.asList(new String[] { "Monkey 1:",
+                "Starting items:",
+                "Operation: new = old + 10",
+                "Test: divisible by 5",
+                "  If true: throw to monkey 1",
+                "  If false: throw to monkey 0" }));
+        var monkeyBusiness = new Solver(input).createMonkeyBusiness();
+        TargetTest firstTargetTest = new TargetTest(50);
+        TargetTest secondTargetTest = new TargetTest(5);
+        Operation timesOperation = Operation.create('*', 19);
+        Monkey theFirstMonkey = Monkey.create(new Integer[] { 79, 98 }, timesOperation, firstTargetTest);
+        Operation plusOperation = Operation.create('+', 10);
+        Monkey theSecondMonkey = Monkey.create(new Integer[0], plusOperation, secondTargetTest);
+        firstTargetTest.setTargets(theFirstMonkey, theSecondMonkey);
+        secondTargetTest.setTargets(theFirstMonkey, theSecondMonkey);
+        assertTrue(monkeyBusiness.equals(MonkeyBusiness.createFromMonkeys(
+                new Monkey[] { theFirstMonkey, theSecondMonkey })));
+        monkeyBusiness.tick();
+        assertTrue(monkeyBusiness.equals(MonkeyBusiness.createFromMonkeys(
+                new Monkey[] { Monkey.create(new Integer[] { 620, 170 }, timesOperation, firstTargetTest),
+                        Monkey.create(new Integer[0], plusOperation, secondTargetTest) })));
     }
 
 }

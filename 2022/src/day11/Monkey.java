@@ -32,7 +32,7 @@ public class Monkey {
         return new Monkey(items, operation, targetTest);
     }
 
-    public void tick() {
+    public void investigateItems() {
         for (int i = 0; i < items.length; i++) {
             items[i] = operation.apply(items[i]) / 3;
         }

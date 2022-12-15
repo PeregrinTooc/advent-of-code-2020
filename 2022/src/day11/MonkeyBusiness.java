@@ -18,7 +18,7 @@ public class MonkeyBusiness {
 
     public void tick() {
         for (var monkey : monkeys) {
-            monkey.tick();
+            monkey.investigateItems();
         }
     }
 
@@ -26,7 +26,6 @@ public class MonkeyBusiness {
         MonkeyBusiness result = new MonkeyBusiness();
         result.monkeys = monkeys;
         return result;
-
     }
 
 }
