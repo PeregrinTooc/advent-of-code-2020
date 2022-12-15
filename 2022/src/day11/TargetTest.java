@@ -19,4 +19,11 @@ public class TargetTest {
         this.falseTarget = falseTarget;
     }
 
+    public void apply(Monkey thrower, Integer item) {
+        if (item % test == 0) {
+            thrower.throwCurrentItemTo(trueTarget);
+        } else {
+            thrower.throwCurrentItemTo(falseTarget);
+        }
+    }
 }

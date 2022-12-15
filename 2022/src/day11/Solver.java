@@ -45,25 +45,29 @@ public class Solver {
     }
 
     private TargetTest extractTargetTest(int i) {
-        var x = Integer.valueOf(input.get(i).get(3).split(" ")[3]);
+        String[] split = input.get(i).get(3).stripLeading().split(" ");
+        var x = Integer.valueOf(split[3]);
         TargetTest targetTest = new TargetTest(x);
         return targetTest;
     }
 
     private Operation extractOperation(int i) {
-        var op = input.get(i).get(2).split(" ")[4].charAt(0);
-        var x = Integer.valueOf(input.get(i).get(2).split(" ")[5]);
-        Operation operation = Operation.create(op, x);
-        return operation;
+        var op = input.get(i).get(2).stripLeading().split(" ")[4].charAt(0);
+        String value = input.get(i).get(2).stripLeading().split(" ")[5];
+        if (value.equals("old")) {
+            return Operation.create(op, value);
+        } else {
+            return Operation.create(op, Integer.valueOf(value));
+        }
     }
 
     private Integer[] extractItems(int i) {
-        String[] split = input.get(i).get(1).split(" ", 3);
+        String[] split = input.get(i).get(1).stripLeading().split(" ", 3);
         if (split.length < 3) {
             return new Integer[0];
         }
         var items = Arrays.asList(split[2].split(", ")).stream()
-                .map(s -> Integer.valueOf(s)).toList().toArray(new Integer[] {});
+                .map(s -> Integer.valueOf(s)).toList().toArray(new Integer[]{});
         return items;
     }
 

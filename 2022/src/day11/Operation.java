@@ -2,8 +2,10 @@ package day11;
 
 public abstract class Operation {
 
-    static Operation timesOperation = new TimesOperation();
-    static Operation plusOperation = new PlusOperation();
+    private static Operation timesOperation = new TimesOperation();
+    private static Operation squareOperation = new SquareOperation();
+    private static Operation plusOperation = new PlusOperation();
+    private static Operation doubleOperation = new DoubleOperation();
     private int amount = 0;
 
     public static Operation create(char operation, int x) {
@@ -16,6 +18,15 @@ public abstract class Operation {
                 return timesOperation;
         }
 
+    }
+
+    public static Operation create(char operation, String old) {
+        switch (operation) {
+            case '+':
+                return doubleOperation;
+            default:
+                return squareOperation;
+        }
     }
 
     public final int apply(Integer item) {

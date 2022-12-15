@@ -1,41 +1,47 @@
 package day11;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Monkey {
 
-    private Integer[] items;
+    private List<Integer> items;
     private Operation operation;
     private TargetTest targetTest;
+    private Integer currentItem;
 
     private Monkey(Integer[] items, Operation operation, TargetTest targetTest) {
-        this.items = items.clone();
+        this.items = new ArrayList<Integer>(List.of(items));
         this.operation = operation;
         this.targetTest = targetTest;
-    }
-
-    public Boolean equals(Monkey other) {
-        if (this.items.length != other.items.length) {
-            return false;
-        }
-        for (int i = 0; i < items.length; i++) {
-            if (!this.items[i].equals(other.items[i])) {
-                return false;
-            }
-        }
-        if (this.operation != other.operation) {
-            return false;
-        }
-
-        return this.targetTest.equals(other.targetTest);
     }
 
     public static Monkey create(Integer[] items, Operation operation, TargetTest targetTest) {
         return new Monkey(items, operation, targetTest);
     }
 
+    public Boolean equals(Monkey other) {
+        if (this.items.size() != other.items.size()) {
+            return false;
+        }
+        for (int i = 0; i < items.size(); i++) {
+            if (!this.items.get(i).equals(other.items.get(i))) {
+                return false;
+            }
+        }
+        return this.operation == other.operation;
+    }
+
     public void investigateItems() {
-        for (int i = 0; i < items.length; i++) {
-            items[i] = operation.apply(items[i]) / 3;
+        var clonedItems = items.toArray(new Integer[]{});
+        this.items.clear();
+        for (int i = 0; i < clonedItems.length; i++) {
+            currentItem = operation.apply(clonedItems[i]) / 3;
+            targetTest.apply(this, currentItem);
         }
     }
 
+    public void throwCurrentItemTo(Monkey target) {
+        target.items.add(this.currentItem);
+    }
 }
