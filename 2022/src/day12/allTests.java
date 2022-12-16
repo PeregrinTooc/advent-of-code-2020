@@ -1,4 +1,4 @@
-package template;
+package day12;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
@@ -36,7 +36,15 @@ public class allTests {
 
     @Test
     void firstTest() {
-        assertEquals(1 + 1, 2);
+        String[] input = new String[]{
+                "Sbcdef",
+                "ghijkl",
+                "mnopqr",
+                "stuvwx",
+                "yEaaaa",
+                "xwvaba"};
+        var solver = new Solver(input);
+
     }
 
 }
