@@ -1,11 +1,13 @@
 package day11;
 
+import java.math.BigInteger;
+
 public class TargetTest {
-    private int test;
+    private Long test;
     private Monkey trueTarget;
     private Monkey falseTarget;
 
-    public TargetTest(int i) {
+    public TargetTest(Long i) {
         test = i;
     }
 
@@ -19,8 +21,8 @@ public class TargetTest {
         this.falseTarget = falseTarget;
     }
 
-    public void apply(Monkey thrower, Integer item) {
-        if (item % test == 0) {
+    public void apply(Monkey thrower, BigInteger item) {
+        if (item.mod(BigInteger.valueOf(test)).equals(BigInteger.ZERO)) {
             thrower.throwCurrentItemTo(trueTarget);
         } else {
             thrower.throwCurrentItemTo(falseTarget);

@@ -1,38 +1,46 @@
 package day11;
 
+import java.math.BigInteger;
+import java.util.HashMap;
+
 public abstract class Operation {
 
-    private static Operation timesOperation = new TimesOperation();
     private static Operation squareOperation = new SquareOperation();
-    private static Operation plusOperation = new PlusOperation();
-    private static Operation doubleOperation = new DoubleOperation();
-    private int amount = 0;
+    private static HashMap<Long, Operation> plusOperations = new HashMap<Long, Operation>();
+    private static HashMap<Long, Operation> timesOperations = new HashMap<Long, Operation>();
+    private Long amount = 0L;
 
-    public static Operation create(char operation, int x) {
+    public static Operation create(char operation, Long x) {
         switch (operation) {
             case '+':
-                plusOperation.amount = x;
-                return plusOperation;
+                if (plusOperations.containsKey(x))
+                    return plusOperations.get(x);
+                else {
+                    Operation plusOperation = new PlusOperation();
+                    plusOperation.amount = x;
+                    plusOperations.put(x, plusOperation);
+                    return plusOperation;
+                }
             default:
-                timesOperation.amount = x;
-                return timesOperation;
+                if (timesOperations.containsKey(x))
+                    return timesOperations.get(x);
+                else {
+                    Operation timesOperation = new TimesOperation();
+                    timesOperation.amount = x;
+                    timesOperations.put(x, timesOperation);
+                    return timesOperation;
+                }
         }
 
     }
 
     public static Operation create(char operation, String old) {
-        switch (operation) {
-            case '+':
-                return doubleOperation;
-            default:
-                return squareOperation;
-        }
+        return squareOperation;
     }
 
-    public final int apply(Integer item) {
+    public final BigInteger apply(BigInteger item) {
         return apply(item, amount);
     }
 
-    protected abstract int apply(Integer item, int amount2);
-
+    protected abstract BigInteger apply(BigInteger item, Long amount);
 }

@@ -28,4 +28,10 @@ public class MonkeyBusiness {
         return result;
     }
 
+    public void getActivity(ActivityRecorder activityRecorder) {
+        for (var monkey : monkeys) {
+            monkey.getActivity(activityRecorder);
+        }
+    }
+
 }

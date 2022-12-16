@@ -1,9 +1,27 @@
 package day11;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Solver {
+
+    private final class ActivityRecorderImplementation implements ActivityRecorder {
+        private List<Long> activities = new ArrayList<Long>();
+
+        @Override
+        public BigInteger activity() {
+            activities.sort(null);
+            return BigInteger.valueOf(activities.get(activities.size() - 1))
+                    .multiply(BigInteger.valueOf(activities.get(activities.size() - 2)));
+        }
+
+        @Override
+        public void record(Long activity) {
+            activities.add(activity);
+        }
+    }
 
     private List<List<String>> input;
     private Monkey[] monkeys;
@@ -12,41 +30,57 @@ public class Solver {
         this.input = input;
     }
 
-    public Integer solve1() {
-        return null;
+    public BigInteger solve1() {
+        var monkeyBusiness = createMonkeyBusiness();
+        for (var i = 20; i-- > 0;) {
+            monkeyBusiness.tick();
+        }
+        ActivityRecorder activityRecorder = new ActivityRecorderImplementation();
+        monkeyBusiness.getActivity(activityRecorder);
+        return activityRecorder.activity();
     }
 
-    public Integer solve2() {
-        return null;
+    public BigInteger solve2() {
+        var monkeyBusiness = createMonkeyBusiness(1, 96577);
+        for (var i = 10000; i-- > 0;) {
+            monkeyBusiness.tick();
+        }
+        ActivityRecorder activityRecorder = new ActivityRecorderImplementation();
+        monkeyBusiness.getActivity(activityRecorder);
+        return activityRecorder.activity();
     }
 
-    public MonkeyBusiness createMonkeyBusiness() {
+    private MonkeyBusiness createMonkeyBusiness(int divisor, int rest) {
         monkeys = new Monkey[input.size()];
         TargetTest[] targetTests = new TargetTest[input.size()];
-        for (int i = 0; i < monkeys.length; i++) {
+        for (var i = 0; i < monkeys.length; i++) {
             targetTests[i] = extractTargetTest(i);
         }
-        for (int i = 0; i < monkeys.length; i++) {
-            monkeys[i] = Monkey.create(extractItems(i), extractOperation(i), targetTests[i]);
+        for (var i = 0; i < monkeys.length; i++) {
+            monkeys[i] = Monkey.create(extractItems(i), extractOperation(i), targetTests[i], divisor, rest);
         }
-        for (int i = 0; i < monkeys.length; i++) {
+        for (var i = 0; i < monkeys.length; i++) {
             targetTests[i].setTargets(extractTrueTarget(i), extractFalseTarget(i));
         }
         return MonkeyBusiness.createFromMonkeys(
                 monkeys);
     }
 
+    public MonkeyBusiness createMonkeyBusiness() {
+        return createMonkeyBusiness(3, Integer.MAX_VALUE);
+    }
+
     private Monkey extractTrueTarget(int i) {
-        return monkeys.length > 1 ? monkeys[1] : monkeys[0];
+        return monkeys[Integer.valueOf(input.get(i).get(4).stripLeading().split(" ")[5])];
     }
 
     private Monkey extractFalseTarget(int i) {
-        return monkeys[0];
+        return monkeys[Integer.valueOf(input.get(i).get(5).stripLeading().split(" ")[5])];
     }
 
     private TargetTest extractTargetTest(int i) {
         String[] split = input.get(i).get(3).stripLeading().split(" ");
-        var x = Integer.valueOf(split[3]);
+        var x = Long.valueOf(split[3]);
         TargetTest targetTest = new TargetTest(x);
         return targetTest;
     }
@@ -57,17 +91,17 @@ public class Solver {
         if (value.equals("old")) {
             return Operation.create(op, value);
         } else {
-            return Operation.create(op, Integer.valueOf(value));
+            return Operation.create(op, Long.valueOf(value));
         }
     }
 
-    private Integer[] extractItems(int i) {
+    private Long[] extractItems(int i) {
         String[] split = input.get(i).get(1).stripLeading().split(" ", 3);
         if (split.length < 3) {
-            return new Integer[0];
+            return new Long[0];
         }
         var items = Arrays.asList(split[2].split(", ")).stream()
-                .map(s -> Integer.valueOf(s)).toList().toArray(new Integer[]{});
+                .map(s -> Long.valueOf(s)).toList().toArray(new Long[] {});
         return items;
     }
 

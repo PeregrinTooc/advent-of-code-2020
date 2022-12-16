@@ -1,10 +1,12 @@
 package day11;
 
+import java.math.BigInteger;
+
 public class TimesOperation extends Operation {
 
     @Override
-    protected int apply(Integer item, int amount) {
-        return item * amount;
+    protected BigInteger apply(BigInteger item, Long amount) {
+        return item.multiply(BigInteger.valueOf(amount));
     }
 
 }
