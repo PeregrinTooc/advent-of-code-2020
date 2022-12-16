@@ -36,7 +36,7 @@ public class allTests {
                 assertEquals(BigInteger.valueOf(2713310158L), new Solver(input).solve2());
                 input = Utils.splitAt(Utils.transform(realFile));
                 assertEquals(BigInteger.valueOf(78960L), new Solver(input).solve1());
-                assertEquals(BigInteger.valueOf(0), new Solver(input).solve2());
+                assertEquals(BigInteger.valueOf(14561971968L), new Solver(input).solve2());
         }
 
         @Test

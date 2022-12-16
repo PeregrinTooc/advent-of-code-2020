@@ -41,7 +41,11 @@ public class Solver {
     }
 
     public BigInteger solve2() {
-        var monkeyBusiness = createMonkeyBusiness(1, 96577);
+        int rest = 1;
+        for (int i = 0; i < input.size(); i++) {
+            rest *= Integer.valueOf(input.get(i).get(3).stripLeading().split(" ")[3]);
+        }
+        var monkeyBusiness = createMonkeyBusiness(1, rest);
         for (var i = 10000; i-- > 0;) {
             monkeyBusiness.tick();
         }
@@ -53,11 +57,14 @@ public class Solver {
     private MonkeyBusiness createMonkeyBusiness(int divisor, int rest) {
         monkeys = new Monkey[input.size()];
         TargetTest[] targetTests = new TargetTest[input.size()];
+        Operation[] operations = new Operation[input.size()];
         for (var i = 0; i < monkeys.length; i++) {
             targetTests[i] = extractTargetTest(i);
+            operations[i] = extractOperation(i);
         }
+
         for (var i = 0; i < monkeys.length; i++) {
-            monkeys[i] = Monkey.create(extractItems(i), extractOperation(i), targetTests[i], divisor, rest);
+            monkeys[i] = Monkey.create(extractItems(i), operations[i], targetTests[i], divisor, rest);
         }
         for (var i = 0; i < monkeys.length; i++) {
             targetTests[i].setTargets(extractTrueTarget(i), extractFalseTarget(i));
@@ -79,9 +86,7 @@ public class Solver {
     }
 
     private TargetTest extractTargetTest(int i) {
-        String[] split = input.get(i).get(3).stripLeading().split(" ");
-        var x = Long.valueOf(split[3]);
-        TargetTest targetTest = new TargetTest(x);
+        TargetTest targetTest = new TargetTest(Long.valueOf(input.get(i).get(3).stripLeading().split(" ")[3]));
         return targetTest;
     }
 
