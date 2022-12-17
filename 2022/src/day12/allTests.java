@@ -1,5 +1,6 @@
 package day12;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ public class allTests {
     static File testFile = null;
     static File realFile = null;
     Solver solver = null;
+    private HeightMap map;
 
     @BeforeAll
     static void classSetUp() {
@@ -21,6 +23,25 @@ public class allTests {
         testFile = new File(path.getFile());
         path = allTests.class.getResource("input.txt");
         realFile = new File(path.getFile());
+    }
+
+    @NotNull
+    private static HeightMap getHeightMap(String[] input) {
+        var solver = new Solver(input);
+        HeightMap actual = solver.createMap();
+        return actual;
+    }
+
+    private static void createAndAssertEquals(String[] input, int[][] heights) {
+        var simpleMapWithoutStart = getHeightMap(input);
+        var heightMap = HeightMap.create(heights);
+        assertEquals(simpleMapWithoutStart, heightMap);
+    }
+
+    private void assertDistance(int expectedDistance, Point endPoint) {
+        map.setEndPoint(endPoint);
+        int distance = map.findShortestWay();
+        assertEquals(expectedDistance, distance);
     }
 
     @Test
@@ -35,16 +56,47 @@ public class allTests {
     }
 
     @Test
-    void firstTest() {
-        String[] input = new String[]{
-                "Sbcdef",
-                "ghijkl",
-                "mnopqr",
-                "stuvwx",
-                "yEaaaa",
-                "xwvaba"};
-        var solver = new Solver(input);
+    void mapCreation() {
+        createAndAssertEquals(new String[]{"a"}, new int[][]{{0}});
+        createAndAssertEquals(new String[]{"S"}, new int[][]{{0}});
+        createAndAssertEquals(new String[]{"E"}, new int[][]{{25}});
+        createAndAssertEquals(
+                new String[]{
+                        "Sbcdef",
+                        "ghijkl",
+                        "mnopqr",
+                        "stuvwx",
+                        "yEaaaa",
+                        "xwvaba"},
+                new int[][]{
+                        {0, 1, 2, 3, 4, 5},
+                        {6, 7, 8, 9, 10, 11},
+                        {12, 13, 14, 15, 16, 17},
+                        {18, 19, 20, 21, 22, 23},
+                        {24, 25, 0, 0, 0, 0},
+                        {23, 22, 21, 0, 1, 0}});
+    }
 
+    @Test
+    void routeFindingWithoutBarriers() {
+        map = HeightMap.create(new int[][]{{0, 1}, {1, 0}});
+        map.setStartPoint(new Point(0, 0));
+        assertDistance(0, new Point(0, 0));
+        assertDistance(1, new Point(1, 0));
+        assertDistance(1, new Point(0, 1));
+        assertDistance(2, new Point(1, 1));
+    }
+
+    @Test
+    void routeFindingWithBarriers() {
+        map = HeightMap.create(new int[][]{{0, 1, 3}, {1, 0, 2}, {2, 1, 1}});
+        map.setStartPoint(new Point(0, 0));
+        Point endPoint = new Point(2, 0);
+        map.setEndPoint(endPoint);
+        HeightMap heuristic = map.createHeuristic();
+        assertEquals(heuristic, HeightMap.create(new int[][]{{2, 1, 0}, {3, 2, 1}, {4, 3, 2}}));
+
+        //assertDistance(4, endPoint);
     }
 
 }

@@ -1,3 +1,4 @@
 *.class
 2022/bin/*
+.idea
 out
