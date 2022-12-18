@@ -9,6 +9,7 @@ import util.Utils;
 import java.io.File;
 import java.net.URL;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class allTests {
@@ -80,11 +81,25 @@ public class allTests {
     @Test
     void routeFindingWithoutBarriers() {
         map = HeightMap.create(new int[][]{{0, 1}, {1, 0}});
-        map.setStartPoint(new Point(0, 0));
-        assertDistance(0, new Point(0, 0));
-        assertDistance(1, new Point(1, 0));
+        Point startPoint = new Point(0, 0);
+        map.setStartPoint(startPoint);
+
+        Point endPoint = new Point(0, 0);
+        assertDistance(0, endPoint);
+        assertHeuristic(new int[][]{{0, 1}, {1, 2}});
+        Route routeToOrigin = new Route(startPoint, null);
+        assertEquals(map.getOptimalPath(), routeToOrigin);
+
+        endPoint = new Point(1, 0);
+        assertDistance(1, endPoint);
+        assertEquals(map.getOptimalPath(), new Route(endPoint, routeToOrigin));
         assertDistance(1, new Point(0, 1));
-        assertDistance(2, new Point(1, 1));
+
+        endPoint = new Point(1, 1);
+        assertDistance(2, endPoint);
+        Route route1 = new Route(endPoint, new Route(new Point(1, 0), routeToOrigin));
+        Route route2 = new Route(endPoint, new Route(new Point(0, 1), routeToOrigin));
+        assertTrue(route1.equals(map.getOptimalPath()) || route2.equals(map.getOptimalPath()));
     }
 
     @Test
@@ -93,10 +108,14 @@ public class allTests {
         map.setStartPoint(new Point(0, 0));
         Point endPoint = new Point(2, 0);
         map.setEndPoint(endPoint);
-        HeightMap heuristic = map.createHeuristic();
-        assertEquals(heuristic, HeightMap.create(new int[][]{{2, 1, 0}, {3, 2, 1}, {4, 3, 2}}));
+        assertHeuristic(new int[][]{{2, 1, 0}, {3, 2, 1}, {4, 3, 2}});
 
         //assertDistance(4, endPoint);
+    }
+
+    private void assertHeuristic(int[][] distances) {
+        HeightMap heuristic = map.createHeuristic();
+        assertEquals(heuristic, HeightMap.create(distances));
     }
 
 }

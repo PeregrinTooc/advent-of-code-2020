@@ -46,12 +46,19 @@ public class HeightMap {
 
     public HeightMap createHeuristic() {
         int[][] heuristicDistance = new int[heights.length][heights.length];
-        for (int i = 0; i < heights.length; i++) {
-            for (int j = 0; j < heights.length; j++) {
-                heuristicDistance[j][i] = new Point(i, j).distanceTo(endPoint);
+        for (int y = 0; y < heights.length; y++) {
+            for (int x = 0; x < heights.length; x++) {
+                heuristicDistance[y][x] = new Point(x, y).distanceTo(endPoint);
             }
         }
 
         return HeightMap.create(heuristicDistance);
+    }
+
+    public Route getOptimalPath() {
+        if (endPoint.equals(startPoint))
+            return new Route(endPoint, null);
+
+        return new Route(endPoint, new Route(startPoint, null));
     }
 }

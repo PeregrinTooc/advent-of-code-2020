@@ -9,6 +9,14 @@ public class Point {
         this.y = y;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Point) {
+            var other = (Point) obj;
+            return other.x == this.x && other.y == this.y;
+        } else return super.equals(obj);
+    }
+
     public int distanceTo(Point other) {
         return Math.abs(this.x - other.x) + Math.abs(this.y - other.y);
     }
