@@ -17,7 +17,8 @@ public class Point {
         if (obj instanceof Point) {
             var other = (Point) obj;
             return other.x == this.x && other.y == this.y;
-        } else return super.equals(obj);
+        } else
+            return super.equals(obj);
     }
 
     public int distanceTo(Point other) {
@@ -64,5 +65,10 @@ public class Point {
 
     public int valueAt(Map map) {
         return map.valueAt(x, y);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("X:%s,Y:%s", x, y);
     }
 }

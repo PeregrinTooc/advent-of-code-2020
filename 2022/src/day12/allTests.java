@@ -1,6 +1,5 @@
 package day12;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import util.Utils;
@@ -22,7 +21,6 @@ public class allTests {
         realFile = new File(path.getFile());
     }
 
-    @NotNull
     private static Map getHeightMap(String[] input) {
         var solver = new Solver(input);
         Map actual = solver.createMap();
@@ -42,30 +40,29 @@ public class allTests {
         assertEquals(29, new Solver(input).solve2());
         input = Utils.transform(realFile);
         assertEquals(490, new Solver(input).solve1());
-        assertEquals(400, new Solver(input).solve2());
+        assertEquals(488, new Solver(input).solve2());
     }
 
     @Test
     void mapCreation() {
-        createAndAssertEquals(new String[]{"a"}, new int[][]{{0}});
-        createAndAssertEquals(new String[]{"S"}, new int[][]{{0}});
-        createAndAssertEquals(new String[]{"E"}, new int[][]{{25}});
+        createAndAssertEquals(new String[] { "a" }, new int[][] { { 0 } });
+        createAndAssertEquals(new String[] { "S" }, new int[][] { { 0 } });
+        createAndAssertEquals(new String[] { "E" }, new int[][] { { 25 } });
         createAndAssertEquals(
-                new String[]{
+                new String[] {
                         "Sbcdefaa",
                         "ghijklaa",
                         "mnopqraa",
                         "stuvwxaa",
                         "yEaaaaaa",
-                        "xwvabaaa"},
-                new int[][]{
-                        {0, 1, 2, 3, 4, 5, 0, 0},
-                        {6, 7, 8, 9, 10, 11, 0, 0},
-                        {12, 13, 14, 15, 16, 17, 0, 0},
-                        {18, 19, 20, 21, 22, 23, 0, 0},
-                        {24, 25, 0, 0, 0, 0, 0, 0},
-                        {23, 22, 21, 0, 1, 0, 0, 0}});
+                        "xwvabaaa" },
+                new int[][] {
+                        { 0, 1, 2, 3, 4, 5, 0, 0 },
+                        { 6, 7, 8, 9, 10, 11, 0, 0 },
+                        { 12, 13, 14, 15, 16, 17, 0, 0 },
+                        { 18, 19, 20, 21, 22, 23, 0, 0 },
+                        { 24, 25, 0, 0, 0, 0, 0, 0 },
+                        { 23, 22, 21, 0, 1, 0, 0, 0 } });
     }
-
 
 }

@@ -98,11 +98,9 @@ public class Map {
                     }
             });
         }
-        currentSegment = new RouteSegment(endPoint, currentSegment);
-        return currentSegment;
+        return null;
 
     }
-
 
     public int valueAt(int x, int y) {
         return this.values[y][x];

@@ -1,17 +1,14 @@
 package day12;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.*;
 
-public class OpenClosedList<RouteSegment> implements List<RouteSegment> {
-    private List<RouteSegment> values = new ArrayList<RouteSegment>();
+public class OpenClosedList<T> implements List<T> {
+    private List<T> values = new ArrayList<T>();
 
     @Override
     public boolean contains(Object o) {
         var segment = (day12.RouteSegment) (o);
-        for (RouteSegment s : values
-        ) {
+        for (T s : values) {
             if (segment.hasSameEndpointAs(s)) {
                 return true;
             }
@@ -29,26 +26,23 @@ public class OpenClosedList<RouteSegment> implements List<RouteSegment> {
         return values.isEmpty();
     }
 
-    @NotNull
     @Override
-    public Iterator<RouteSegment> iterator() {
+    public Iterator<T> iterator() {
         return values.iterator();
     }
 
-    @NotNull
     @Override
     public Object[] toArray() {
         return values.toArray();
     }
 
-    @NotNull
     @Override
-    public <T> T[] toArray(@NotNull T[] a) {
+    public <T> T[] toArray(T[] a) {
         return values.toArray(a);
     }
 
     @Override
-    public boolean add(RouteSegment routeSegment) {
+    public boolean add(T routeSegment) {
         return values.add(routeSegment);
     }
 
@@ -58,27 +52,27 @@ public class OpenClosedList<RouteSegment> implements List<RouteSegment> {
     }
 
     @Override
-    public boolean containsAll(@NotNull Collection<?> c) {
+    public boolean containsAll(Collection<?> c) {
         return false;
     }
 
     @Override
-    public boolean addAll(@NotNull Collection<? extends RouteSegment> c) {
+    public boolean addAll(Collection<? extends T> c) {
         return values.addAll(c);
     }
 
     @Override
-    public boolean addAll(int index, @NotNull Collection<? extends RouteSegment> c) {
+    public boolean addAll(int index, Collection<? extends T> c) {
         return values.addAll(index, c);
     }
 
     @Override
-    public boolean removeAll(@NotNull Collection<?> c) {
+    public boolean removeAll(Collection<?> c) {
         return values.removeAll(c);
     }
 
     @Override
-    public boolean retainAll(@NotNull Collection<?> c) {
+    public boolean retainAll(Collection<?> c) {
         return values.retainAll(c);
     }
 
@@ -88,22 +82,22 @@ public class OpenClosedList<RouteSegment> implements List<RouteSegment> {
     }
 
     @Override
-    public RouteSegment get(int index) {
+    public T get(int index) {
         return values.get(index);
     }
 
     @Override
-    public RouteSegment set(int index, RouteSegment element) {
+    public T set(int index, T element) {
         return values.set(index, element);
     }
 
     @Override
-    public void add(int index, RouteSegment element) {
+    public void add(int index, T element) {
         values.add(index, element);
     }
 
     @Override
-    public RouteSegment remove(int index) {
+    public T remove(int index) {
         return values.remove(index);
     }
 
@@ -126,22 +120,19 @@ public class OpenClosedList<RouteSegment> implements List<RouteSegment> {
         return values.lastIndexOf(o);
     }
 
-    @NotNull
     @Override
-    public ListIterator<RouteSegment> listIterator() {
+    public ListIterator<T> listIterator() {
         return values.listIterator();
     }
 
-    @NotNull
     @Override
-    public ListIterator<RouteSegment> listIterator(int index) {
+    public ListIterator<T> listIterator(int index) {
         return values.listIterator(index);
     }
 
-    @NotNull
     @Override
-    public List<RouteSegment> subList(int fromIndex, int toIndex) {
-        var result = new OpenClosedList<RouteSegment>();
+    public List<T> subList(int fromIndex, int toIndex) {
+        var result = new OpenClosedList<T>();
         result.values = this.values.subList(fromIndex, toIndex);
         return result;
     }

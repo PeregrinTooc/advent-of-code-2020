@@ -18,7 +18,6 @@ public class RouteSegment {
             length = parent.getLength() + 1;
             this.origin = parent.origin;
         }
-
     }
 
     @Override
@@ -68,5 +67,13 @@ public class RouteSegment {
 
     public List<Point> getAdjacentWalkable(Map map) {
         return this.point.getAdjacentWalkable(map);
+    }
+
+    @Override
+    public String toString() {
+        if (this.parent == null) {
+            return this.point.toString();
+        }
+        return String.format("%s->%s", this.parent.toString(), this.point.toString());
     }
 }

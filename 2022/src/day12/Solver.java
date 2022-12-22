@@ -1,6 +1,7 @@
 package day12;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Solver {
 
@@ -52,20 +53,30 @@ public class Solver {
 
     public Integer solve2() {
         var heightMap = createMap();
-        var pathLengths = new ArrayList<Integer>();
-        var paths = new ArrayList<RouteSegment>();
         heightMap.calculateOptimalPath();
-        pathLengths.add(heightMap.findShortestWayLength());
+        var shortestPathLength = heightMap.findShortestWayLength();
+        ArrayList<Point> startpoints = new ArrayList<Point>();
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length(); j++) {
                 if (map[i].charAt(j) == 'a') {
-                    heightMap.setStartPoint(new Point(j, i));
-                    paths.add(heightMap.calculateOptimalPath());
-                    pathLengths.add(heightMap.findShortestWayLength());
+                    Point point = new Point(j, i);
+                    startpoints.add(point);
                 }
             }
         }
-        pathLengths.sort(null);
-        return pathLengths.get(0);
+        Collections.sort(startpoints, (p, q) -> p.distanceTo(endPoint) > q.distanceTo(endPoint) ? 1 : -1);
+        for (Point point : startpoints) {
+            if (point.distanceTo(endPoint) < shortestPathLength) {
+                startPoint = point;
+                heightMap.setStartPoint(point);
+                RouteSegment optimalPathCandidate = heightMap.calculateOptimalPath();
+                if (optimalPathCandidate == null) {
+                    continue;
+                }
+                var x = heightMap.findShortestWayLength();
+                shortestPathLength = x < shortestPathLength ? x : shortestPathLength;
+            }
+        }
+        return shortestPathLength;
     }
 }
