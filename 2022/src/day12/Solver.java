@@ -8,6 +8,7 @@ public class Solver {
     private final String[] map;
     private Point startPoint;
     private Point endPoint;
+    private int shortestPathLength;
 
     public Solver(String[] input) {
         this.map = input;
@@ -54,7 +55,42 @@ public class Solver {
     public Integer solve2() {
         var heightMap = createMap();
         heightMap.calculateOptimalPath();
-        var shortestPathLength = heightMap.findShortestWayLength();
+        shortestPathLength = heightMap.findShortestWayLength();
+        ArrayList<Point> startpoints = calculateAllStartpoints();
+
+        for (Point point : startpoints) {
+            calculateShortestPathLengthFor(heightMap, point);
+        }
+        return shortestPathLength;
+    }
+
+    private void calculateShortestPathLengthFor(Map heightMap, Point point) {
+        if (isACandidateForAShorterLength(point)) {
+            startPoint = point;
+            heightMap.setStartPoint(startPoint);
+            if (thereIsNoPathToEndFromStart(heightMap)) {
+                return;
+            } else {
+                recordCurrentShortestPathLength(heightMap);
+            }
+        }
+    }
+
+    private boolean thereIsNoPathToEndFromStart(Map heightMap) {
+        RouteSegment optimalPathCandidate = heightMap.calculateOptimalPath();
+        return optimalPathCandidate == null;
+    }
+
+    private void recordCurrentShortestPathLength(Map heightMap) {
+        var x = heightMap.findShortestWayLength();
+        shortestPathLength = x < shortestPathLength ? x : shortestPathLength;
+    }
+
+    private boolean isACandidateForAShorterLength(Point point) {
+        return point.distanceTo(endPoint) < shortestPathLength;
+    }
+
+    private ArrayList<Point> calculateAllStartpoints() {
         ArrayList<Point> startpoints = new ArrayList<Point>();
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length(); j++) {
@@ -65,18 +101,6 @@ public class Solver {
             }
         }
         Collections.sort(startpoints, (p, q) -> p.distanceTo(endPoint) > q.distanceTo(endPoint) ? 1 : -1);
-        for (Point point : startpoints) {
-            if (point.distanceTo(endPoint) < shortestPathLength) {
-                startPoint = point;
-                heightMap.setStartPoint(point);
-                RouteSegment optimalPathCandidate = heightMap.calculateOptimalPath();
-                if (optimalPathCandidate == null) {
-                    continue;
-                }
-                var x = heightMap.findShortestWayLength();
-                shortestPathLength = x < shortestPathLength ? x : shortestPathLength;
-            }
-        }
-        return shortestPathLength;
+        return startpoints;
     }
 }
