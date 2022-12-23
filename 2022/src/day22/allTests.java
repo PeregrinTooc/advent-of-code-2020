@@ -1,4 +1,4 @@
-package template;
+package day22;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;

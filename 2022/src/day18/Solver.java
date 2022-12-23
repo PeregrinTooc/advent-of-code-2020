@@ -1,4 +1,4 @@
-package template;
+package day18;
 
 public class Solver {
 
