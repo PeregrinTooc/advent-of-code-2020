@@ -87,7 +87,7 @@ public class Solver {
     }
 
     private boolean isACandidateForAShorterLength(Point point) {
-        return point.distanceTo(endPoint) < shortestPathLength;
+        return point.newYorkDistanceTo(endPoint) < shortestPathLength;
     }
 
     private ArrayList<Point> calculateAllStartpoints() {
@@ -100,7 +100,7 @@ public class Solver {
                 }
             }
         }
-        Collections.sort(startpoints, (p, q) -> p.distanceTo(endPoint) > q.distanceTo(endPoint) ? 1 : -1);
+        Collections.sort(startpoints, (p, q) -> p.newYorkDistanceTo(endPoint) > q.newYorkDistanceTo(endPoint) ? 1 : -1);
         return startpoints;
     }
 }

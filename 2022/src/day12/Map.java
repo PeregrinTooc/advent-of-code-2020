@@ -48,7 +48,7 @@ public class Map {
         int[][] heuristicDistance = new int[values.length][values[0].length];
         for (int y = 0; y < values.length; y++) {
             for (int x = 0; x < values[y].length; x++) {
-                heuristicDistance[y][x] = new Point(x, y).distanceTo(endPoint);
+                heuristicDistance[y][x] = new Point(x, y).newYorkDistanceTo(endPoint);
             }
         }
         heuristics = Map.create(heuristicDistance);

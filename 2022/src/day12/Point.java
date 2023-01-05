@@ -3,26 +3,10 @@ package day12;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Point {
-    private final int x;
-    private final int y;
+public class Point extends util.Point {
 
     public Point(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Point) {
-            var other = (Point) obj;
-            return other.x == this.x && other.y == this.y;
-        } else
-            return super.equals(obj);
-    }
-
-    public int distanceTo(Point other) {
-        return Math.abs(this.x - other.x) + Math.abs(this.y - other.y);
+        super(x, y);
     }
 
     public List<Point> getAdjacentWalkable(Map map) {
@@ -53,7 +37,7 @@ public class Point {
         }
     }
 
-    public int bigger(Point other, Map heuristics) {
+    public int biggerDistanceThan(Point other, Map heuristics) {
         if (this.equals(other)) {
             return 0;
         }
@@ -67,8 +51,4 @@ public class Point {
         return map.valueAt(x, y);
     }
 
-    @Override
-    public String toString() {
-        return String.format("X:%s,Y:%s", x, y);
-    }
 }
