@@ -5,5 +5,7 @@
         "src/util",
         "src/day1",
         "src"
-    ]
+    ],
+    "jest.rootPath": "2023",
+    "jest.jestCommandLine": "npm test --"
 }

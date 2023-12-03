@@ -27,16 +27,19 @@ public class allTests {
     @Disabled
     void acceptance() {
         String[] input = Utils.transform(testFile);
-        assertEquals(2, new Solver(input).solve1());
-        assertEquals(4, new Solver(input).solve2());
+        assertEquals(1651, new Solver(input).solve1());
+        //assertEquals(4, new Solver(input).solve2());
         input = Utils.transform(realFile);
-        assertEquals(498, new Solver(input).solve1());
-        assertEquals(859, new Solver(input).solve2());
+        //assertEquals(498, new Solver(input).solve1());
+        //assertEquals(859, new Solver(input).solve2());
     }
 
     @Test
     void firstTest() {
-        assertEquals(1 + 1, 2);
+        String[] input = new String[]{"Valve AA has flow rate=0; tunnels lead to valves BB, CC",
+                "Valve BB has flow rate=13; tunnels lead to valves CC, AA",
+                "Valve CC has flow rate=2; tunnels lead to valves AA, BB"};
+        assertEquals(28 * 13 + 26 * 2, new Solver(input).solve1());
     }
 
 }
