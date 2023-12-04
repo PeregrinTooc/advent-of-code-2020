@@ -15,7 +15,7 @@ test("should return correct result", () => {
 });
 
 describe("replace words by numbers and return the first and last", () => {
-  it.each([
+  test.each([
     ["kffeightwogzcqpzdbhfvmckxmbhrgvonevcshkbctbc524", 84],
     ["khrjxxrltbpngsmzndgsjmzvgqxfhvkct6eightzrvpmpcc3", 63],
     ["756ghcxrmrgtninefivegvmtjhfrj", 75],

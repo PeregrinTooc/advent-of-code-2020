@@ -9,3 +9,5 @@ function start2(path) {
   const input = fs.readFileSync(path, "utf8");
   return 0;
 }
+
+module.exports = { start1, start2 }
