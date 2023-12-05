@@ -5,7 +5,7 @@ const solver = require("../../src/day" + day + "/solver");
 test("should return correct result", () => {
   expect(
     solver.start1(path.resolve(path.join("tests", "day" + day, "input1.txt")))
-  ).toBe(0);
+  ).toBe(1 + 2 + 5);
 });
 
 test("should return correct result", () => {
