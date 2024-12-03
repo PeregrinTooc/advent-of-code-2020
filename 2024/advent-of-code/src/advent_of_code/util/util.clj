@@ -1,9 +1,10 @@
-(ns advent-of-code.core
-    )
-(defn split-on-newline-cross-platform [text]
+(ns advent-of-code.util.util
+  (:require [clojure.string :as str]))
+
+(defn- split-on-newline-cross-platform [text]
       (str/split text #"\r?\n"))
 
-(defn read-file-as-string [file-path]
+(defn- read-file-as-string [file-path]
       (slurp file-path))
 
 
