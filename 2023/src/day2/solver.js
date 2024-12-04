@@ -14,21 +14,22 @@ class Game {
     this.samples = this.samples.map((s => {
       let result = { blue: 0, red: 0, green: 0 };
       s.split(',').forEach((sample) => {
-        sample = sample.trim(); const draws = sample.split(' '); for (let i = 1; i < draws.length; i++) {
-          const colour = draws[i];
-          switch (colour) {
-            case 'red':
-              result.red = parseInt(draws[i - 1]);
-              break;
-            case 'blue':
-              result.blue = parseInt(draws[i - 1]);
-              break;
-            default:
-              result.green = parseInt(draws[i - 1]);
-              break;
-          }
+        sample = sample.trim();
+        const draw = sample.split(' ');
+        const colour = draw[1];
+        switch (colour) {
+          case 'red':
+            result.red = parseInt(draw[0]);
+            break;
+          case 'blue':
+            result.blue = parseInt(draw[0]);
+            break;
+          default:
+            result.green = parseInt(draw[0]);
+            break;
         }
-      });
+      }
+      );
       return result;
     }));
   }
@@ -72,7 +73,6 @@ function start1(path) {
 function start2(path) {
   const input = fs.readFileSync(path, "utf8");
   let games = parseGames(input);
-  // return games[0].power() + games[1].power() + games[2].power() + games[3].power() + games[4].power();
   return games.reduce((n, game) => {
     return n + game.power();
   }, 0);
