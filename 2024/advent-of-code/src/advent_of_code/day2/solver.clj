@@ -5,10 +5,15 @@
   (or (every? (fn [[a b]] (and (< a b) (>= 3 (- b a)))) (partition 2 1 sequence))
       (every? (fn [[a b]] (and (< b a) (>= 3 (- a b)))) (partition 2 1 sequence))))
 
+(defn subsequences [sequence]
+  (map #(concat (take % sequence) (drop (inc %) sequence))
+       (range (count sequence))))
+
+
 (defn updated-safe? [sequence]
-  (let [list1 (map (fn [[a b]] (and (< a b) (>= 3 (- b a)))) (partition 2 1 sequence))
-        list2 (map (fn [[a b]] (and (< b a) (>= 3 (- a b)))) (partition 2 1 sequence))]
-    (or (> 2 (count (filter #((false? %)) list1))) (> 2 (count (filter #((false? %)) list2))))
+  (if (safe? sequence)
+    true
+    (some safe? (subsequences sequence))
     ))
 
 (defn is-safe [sequence safety-function]
@@ -22,7 +27,8 @@
   (count (filter #(is-safe % safe?) input))
   )
 (defn solve2 [input]
-  (count (filter #(is-safe % updated-safe?) input)))
+  (count (filter #(is-safe % updated-safe?) input))
+  )
 
 
 

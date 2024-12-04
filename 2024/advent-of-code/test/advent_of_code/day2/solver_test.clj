@@ -37,7 +37,7 @@
     (is (updated-safe? [1 3 6 7 9]))
     ))
 
-(deftest ^:skip all-tests-part2
+(deftest all-tests-part2
   (testing "Acceptance Test"
     (is (= 4 (solve2 ["7 6 4 2 1"
                       "1 2 7 8 9"
@@ -46,5 +46,5 @@
                       "8 6 4 4 1"
                       "1 3 6 7 9"]))))
   (testing "Solution Tests"
-    (is (= 22565391 (solve2 input))))
+    (is (= 717 (solve2 input))))
   )
