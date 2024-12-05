@@ -24,7 +24,17 @@
   )
 
 (deftest unit-tests
-  (testing "unit")
+  (testing "count in strings"
+    (is (= 0 (count-xmas-occurences "")))
+    (is (= 1 (count-xmas-occurences "XMAS")))
+    (is (= 0 (count-xmas-occurences "X")))
+    )
+  (testing "extract_columns"
+    (is (= [""] (extract-columns [])))
+    (is (= ["X"] (extract-columns ["X"])))
+    (is (= ["X" "X"] (extract-columns ["XX"])))
+    (is (= ["XX"] (extract-columns ["X" "X"])))
+    )
   )
 
 (deftest all-tests-part2
