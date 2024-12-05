@@ -23,11 +23,25 @@
     (extract-columns-from-matrix (create-matrix-from-lines lines) 0)
     )
   )
+(defn left-to-right-diagonals [matrix index-diff]
+  (map #((matrix %) (- index-diff %)) (range (count matrix)))
+  )
+
 (defn extract-diagonals [lines]
-  [])
+  (if (> 2 (count lines))
+    lines
+    (let [matrix (create-matrix-from-lines lines)]
+      (concat (left-to-right-diagonals matrix (dec (count matrix))) [(str/join [((matrix 0) 0) ((matrix 1) 1)])])
+      )
+    )
+  )
 
 (defn solve1 [input]
-  (+ (reduce + (map count-xmas-occurrences input)) (reduce + (map count-xmas-occurrences (extract-columns input))))
+  (+ (reduce + (map count-xmas-occurrences input))
+     (reduce + (map count-xmas-occurrences (extract-columns input)))
+     (reduce + (map count-xmas-occurrences (extract-diagonals input)))
+     (reduce + (map count-xmas-occurrences (extract-diagonals (map #(apply str (reverse %)) input))))
+     )
   )
 (defn solve2 [input]
 
