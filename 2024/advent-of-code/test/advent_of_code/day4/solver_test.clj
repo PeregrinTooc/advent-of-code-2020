@@ -25,15 +25,21 @@
 
 (deftest unit-tests
   (testing "count in strings"
-    (is (= 0 (count-xmas-occurences "")))
-    (is (= 1 (count-xmas-occurences "XMAS")))
-    (is (= 0 (count-xmas-occurences "X")))
+    (is (= 0 (count-xmas-occurrences "")))
+    (is (= 1 (count-xmas-occurrences "XMAS")))
+    (is (= 0 (count-xmas-occurrences "X")))
+    (is (= 1 (count-xmas-occurrences "SAMX")))
     )
-  (testing "extract_columns"
-    (is (= [""] (extract-columns [])))
+  (testing "extract columns"
+    (is (= [] (extract-columns [])))
     (is (= ["X"] (extract-columns ["X"])))
     (is (= ["X" "X"] (extract-columns ["XX"])))
     (is (= ["XX"] (extract-columns ["X" "X"])))
+    (is (= ["AA" "BB"] (extract-columns ["AB" "AB"])))
+    (is (= ["XXX"] (extract-columns ["X" "X" "X"])))
+    )
+  (testing "extract diagonals"
+    (is (= [] (extract-diagonals [])))
     )
   )
 

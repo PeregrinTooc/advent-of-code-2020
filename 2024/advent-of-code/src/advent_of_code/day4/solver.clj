@@ -1,28 +1,33 @@
 (ns advent-of-code.day4.solver
   (:require [clojure.string :as str]))
 
-(defn count-xmas-occurences [string]
-  (count (re-seq #"XMAS" string))
+(defn count-xmas-occurrences [string]
+  (+ (count (re-seq #"XMAS" string)) (count (re-seq #"XMAS" (apply str (reverse string)))))
   )
 
-(defn- extract-columns-from-matrix [[first-line & other-lines]]
-  (if (empty? other-lines)
-    first-line
-    [(str/join [(first-line 0) ((first other-lines) 0)])]
+(defn- extract-columns-from-matrix [[first-line & other-lines] column-count]
+  (if (>= column-count (count first-line))
+    nil
+    (let [first-column (map #(nth % column-count) (cons first-line other-lines))]
+      (vec (cons (str/join first-column) (extract-columns-from-matrix (cons first-line other-lines) (inc column-count))))
+      )
     )
+  )
+(defn- create-matrix-from-lines [lines]
+  (vec (map #(str/split % #"") lines))
   )
 
 (defn extract-columns [lines]
   (if (empty? lines)
-    [""]
-    (let [matrix (vec (map #(str/split % #"") lines))]
-      (extract-columns-from-matrix matrix)
-      )
+    []
+    (extract-columns-from-matrix (create-matrix-from-lines lines) 0)
     )
   )
+(defn extract-diagonals [lines]
+  [])
 
 (defn solve1 [input]
-
+  (+ (reduce + (map count-xmas-occurrences input)) (reduce + (map count-xmas-occurrences (extract-columns input))))
   )
 (defn solve2 [input]
 
