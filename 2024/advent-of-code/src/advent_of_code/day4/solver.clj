@@ -23,15 +23,48 @@
     (extract-columns-from-matrix (create-matrix-from-lines lines) 0)
     )
   )
-(defn left-to-right-diagonals [matrix index-diff]
-  (map #((matrix %) (- index-diff %)) (range (count matrix)))
+(defn left-to-right-diagonals [matrix]
+  (map #((matrix %) (- 1 %)) (range (count matrix)))
+  )
+
+(defn join-to-diagonals [trails diagonals]
+  (vec (map (fn [i]
+              (let [diagonal (diagonals i)
+                    trail (trails i)
+                    joined (str/join [diagonal trail])]
+                joined))
+            (range (count trails)))
+       )
+  )
+
+(defn drop-last-line-and-column [lines]
+  (vec (extract-columns (drop-last (extract-columns (drop-last lines)))))
+  )
+(defn drop-first-line-and-column [lines]
+  (vec (extract-columns (subvec (extract-columns (subvec lines 1)) 1)))
+  )
+
+(defn extract-trails [lines]
+  (let [matrix (create-matrix-from-lines lines)]
+    (if (= 2 (count matrix))
+      [((matrix (dec (count matrix))) (dec (count matrix)))]
+      (vec (concat [((matrix (dec (dec (count matrix)))) (dec (count matrix)))
+                    ((matrix (dec (count matrix))) (dec (dec (count matrix))))
+                    ] (extract-trails (drop-first-line-and-column lines))))
+      ))
   )
 
 (defn extract-diagonals [lines]
-  (if (> 2 (count lines))
+  (if (<= (count lines) 1)
     lines
     (let [matrix (create-matrix-from-lines lines)]
-      (concat (left-to-right-diagonals matrix (dec (count matrix))) [(str/join [((matrix 0) 0) ((matrix 1) 1)])])
+      (let [smaller-matrix (drop-last-line-and-column lines)
+            intermediate (extract-diagonals smaller-matrix)
+            joined ((partial join-to-diagonals (extract-trails lines)) intermediate)
+            ]
+        (vec (concat [((matrix 0) (dec (count matrix)))
+                      ((matrix (dec (count matrix))) 0)] joined))
+        )
       )
     )
   )

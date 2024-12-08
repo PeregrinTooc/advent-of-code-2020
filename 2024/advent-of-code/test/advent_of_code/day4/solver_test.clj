@@ -43,10 +43,10 @@
     (is (= ["X"] (extract-diagonals ["X"])))
     (is (= (set ["B" "C" "AD"]) (set (extract-diagonals ["AB" "CD"]))))
     (is (= (set ["A" "D" "BC"]) (set (extract-diagonals (map #(apply str (reverse %)) ["AB" "CD"])))))
-    (is (= (set ["C" "BF" "AEI" "DH" "G"])
-           (set (extract-diagonals ["ABC"
-                                    "DEF"
-                                    "GHI"]))))
+    (is (= ["C" "G" "BF" "DH" "AEI"]
+           (extract-diagonals ["ABC"
+                               "DEF"
+                               "GHI"])))
     )
   )
 
