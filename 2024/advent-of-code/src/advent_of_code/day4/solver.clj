@@ -73,7 +73,7 @@
   (+ (reduce + (map count-xmas-occurrences input))
      (reduce + (map count-xmas-occurrences (extract-columns input)))
      (reduce + (map count-xmas-occurrences (extract-diagonals input)))
-     (reduce + (map count-xmas-occurrences (extract-diagonals (map #(apply str (reverse %)) input))))
+     (reduce + (map count-xmas-occurrences (extract-diagonals (vec (map #(apply str (reverse %)) input)))))
      )
   )
 (defn solve2 [input]
