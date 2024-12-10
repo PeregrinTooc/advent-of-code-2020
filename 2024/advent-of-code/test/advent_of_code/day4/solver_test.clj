@@ -29,6 +29,7 @@
     (is (= 1 (count-xmas-occurrences "XMAS")))
     (is (= 0 (count-xmas-occurrences "X")))
     (is (= 1 (count-xmas-occurrences "SAMX")))
+    (is (= 2 (count-xmas-occurrences "XMASAMX")))
     )
   (testing "extract columns"
     (is (= [] (extract-columns [])))
@@ -42,11 +43,13 @@
     (is (= [] (extract-diagonals [])))
     (is (= ["X"] (extract-diagonals ["X"])))
     (is (= (set ["B" "C" "AD"]) (set (extract-diagonals ["AB" "CD"]))))
-    (is (= (set ["A" "D" "BC"]) (set (extract-diagonals (map #(apply str (reverse %)) ["AB" "CD"])))))
-    (is (= ["C" "G" "BF" "DH" "AEI"]
-           (extract-diagonals ["ABC"
-                               "DEF"
-                               "GHI"])))
+    (is (= (set ["A" "D" "BC"]) (set (extract-diagonals (vec (map #(apply str (reverse %)) ["AB" "CD"]))))))
+    (is (= (set ["CEG" "FH" "I" "BD" "A"]) (set (extract-diagonals (vec (map #(apply str (reverse %)) ["ABC"
+                                                                                                       "DEF"
+                                                                                                       "GHI"]))))))
+    (is (= ["C" "G" "BF" "DH" "AEI"] (extract-diagonals ["ABC"
+                                                         "DEF"
+                                                         "GHI"])))
     )
   )
 

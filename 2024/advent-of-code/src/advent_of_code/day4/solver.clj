@@ -70,11 +70,19 @@
   )
 
 (defn solve1 [input]
-  (+ (reduce + (map count-xmas-occurrences input))
-     (reduce + (map count-xmas-occurrences (extract-columns input)))
-     (reduce + (map count-xmas-occurrences (extract-diagonals input)))
-     (reduce + (map count-xmas-occurrences (extract-diagonals (vec (map #(apply str (reverse %)) input)))))
-     )
+  (let [xmasses-in-lines (map count-xmas-occurrences input)
+        xmasses-in-columns (map count-xmas-occurrences (extract-columns input))
+        xmasses-in-diagonals (map count-xmas-occurrences (extract-diagonals input))
+        masses-in-other-diagonals (map count-xmas-occurrences (extract-diagonals (vec (map #(apply str (reverse %)) input))))
+        k (reduce + xmasses-in-lines)
+        l (reduce + xmasses-in-columns)
+        m (reduce + xmasses-in-diagonals)
+        n (reduce + masses-in-other-diagonals)]
+    (+ k
+       l
+       m
+       n
+       ))
   )
 (defn solve2 [input]
 
