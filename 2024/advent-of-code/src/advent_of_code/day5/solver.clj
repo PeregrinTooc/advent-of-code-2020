@@ -27,9 +27,20 @@
   (every? (partial matches-rule pages) rules)
   )
 
+(defn rule-applicable? [page1 page2 [comes-first comes-after]]
+  (or (and (= page2 comes-first)
+           (= page1 comes-after))
+      (and (= page2 comes-after)
+           (= page1 comes-first)))
+  )
+
 (defn sort-with [rule-strings page1 page2]
   (let [rules (mapv #(mapv read-string (str/split % #"\|")) rule-strings)
-        [comes-first comes-after] (rules 0)]
+        applicable-rule (filterv (partial rule-applicable? page1 page2)
+                                 rules)
+        [comes-first comes-after] (applicable-rule 0)
+        ]
+    (println applicable-rule page1 page2)
     (cond (= page1 comes-first) -1 :else 1)
     )
   )

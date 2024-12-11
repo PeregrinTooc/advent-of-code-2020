@@ -39,6 +39,13 @@
     (is (= 3608 (solve1 input))))
   )
 
+(deftest all-tests-part2
+  (testing "Acceptance Test"
+    (is (= 123 (solve2 acceptance-input)))
+    ;(is (= 3608 (solve2 input)))
+    )
+  )
+
 (deftest unit-tests
   (testing "input transformation"
     (is (= [] (create-rules-and-pages [])))
@@ -59,11 +66,13 @@
     (is (= 1 (middle-of [2 1 "3"])))
     (is (= "75" (middle-of ["97" "13" "75" "29" "47"])))
     )
-  (testing "sort by rule")
-  (is (= -1 (sort-with ["1|2"] 1 2)) "1,2 does already fulfill 1|2")
-  (is (= 1 (sort-with ["1|2"] 2 1)) "1 must come before 2 according to 1|2")
-  (is (= 1 (sort-with ["1|2" "2|4"] 4 2)) "4 must come before 2 according to 4|2")
-  )
 
+  (testing "sort by rule"
+    (is (= -1 (sort-with ["1|2"] 1 2)) "1,2 does already fulfill 1|2")
+    (is (= 1 (sort-with ["1|2"] 2 1)) "1 must come before 2 according to 1|2")
+    (is (= 1 (sort-with ["1|2" "4|2"] 2 4)) "4 must come before 2 according to 4|2")
+    (is (= -1 (sort-with ["1|2" "4|2"] 4 2)) "4 must come before 2 according to 4|2")
+    )
+  )
 
 
