@@ -1,5 +1,6 @@
 (ns advent-of-code.day5.solver-test
   (:require [clojure.test :refer :all]
+            [clojure.string :as str]
             [advent-of-code.day5.solver :refer :all]
             [advent-of-code.util.util :refer :all]))
 
@@ -33,6 +34,9 @@
                        "61,13,29"
                        "97,13,75,29,47"])
 
+(def rules ((create-rules-and-pages acceptance-input) 0))
+(def pages (vec ((create-rules-and-pages acceptance-input) 1)))
+
 (deftest all-tests-part1
   (testing "Acceptance Test"
     (is (= 143 (solve1 acceptance-input)))
@@ -42,7 +46,7 @@
 (deftest all-tests-part2
   (testing "Acceptance Test"
     (is (= 123 (solve2 acceptance-input)))
-    ;(is (= 3608 (solve2 input)))
+    (is (= 4922 (solve2 input)))
     )
   )
 
@@ -72,7 +76,14 @@
     (is (= 1 (sort-with ["1|2"] 2 1)) "1 must come before 2 according to 1|2")
     (is (= 1 (sort-with ["1|2" "4|2"] 2 4)) "4 must come before 2 according to 4|2")
     (is (= -1 (sort-with ["1|2" "4|2"] 4 2)) "4 must come before 2 according to 4|2")
+    (is (= (pages 0) (str/join "," (sort (partial sort-with rules) (mapv read-string (str/split (pages 0) #","))))))
+    (is (= (pages 1) (str/join "," (sort (partial sort-with rules) (mapv read-string (str/split (pages 1) #","))))))
+    (is (= (pages 2) (str/join "," (sort (partial sort-with rules) (mapv read-string (str/split (pages 2) #","))))))
+    (is (= "97,75,47,61,53" (str/join "," (sort (partial sort-with rules) (mapv read-string (str/split (pages 3) #","))))))
+    (is (= "61,29,13" (str/join "," (sort (partial sort-with rules) (mapv read-string (str/split (pages 4) #","))))))
+    (is (= "97,75,47,29,13" (str/join "," (sort (partial sort-with rules) (mapv read-string (str/split (pages 5) #","))))))
     )
   )
+
 
 

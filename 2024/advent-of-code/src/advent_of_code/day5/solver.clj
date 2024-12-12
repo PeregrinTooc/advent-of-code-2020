@@ -11,6 +11,7 @@
   )
 
 (defn middle-of [v]
+  (println v)
   (v (/ (dec (count v)) 2))
   )
 
@@ -40,7 +41,6 @@
                                  rules)
         [comes-first comes-after] (applicable-rule 0)
         ]
-    (println applicable-rule page1 page2)
     (cond (= page1 comes-first) -1 :else 1)
     )
   )
@@ -55,7 +55,7 @@
 (defn solve2 [input]
   (let [[rules pages] (create-rules-and-pages input)
         naughty-pages (filter (complement (partial matches-all-rules rules)) pages)]
-    (apply + (map #(middle-of (sort (partial sort-with rules) (mapv read-string (str/split % #",")))) naughty-pages))
+    (apply + (map #(middle-of (vec (sort (partial sort-with rules) (mapv read-string (str/split % #","))))) naughty-pages))
     )
   )
 
