@@ -20,7 +20,7 @@
     (is (= 18 (solve1 acceptance-input))))
 
   (testing "Solution Tests"
-    (is (= 686 (solve1 input))))
+    (is (= 2496 (solve1 input))))
   )
 
 (deftest unit-tests
@@ -45,10 +45,12 @@
     (is (= (set ["B" "C" "AD"]) (set (extract-diagonals ["AB" "CD"]))))
     (is (= (set ["MSXMAXSAMX" "MMASMASMS" "ASAMSAMA"
                  "MMAMMXM" "XXSAMX" "XMXMA" "SAMX" "SAM" "MX" "M"
-                 "MASAMXXMX" "MMXSXASA" "SXMMAMS" "XMASMA"
+                 "MASAMXXAM" "MMXSXASA" "SXMMAMS" "XMASMA"
                  "XSAMM" "MMMX" "ASM" "SA" "M"]) (set (extract-diagonals acceptance-input))))
     (is (= ["C" "G" "BF" "DH" "AEI"] (extract-diagonals ["ABC" "DEF" "GHI"])))
+    (is (= (set ["AFKP" "BGL" "CH" "D" "EJO" "IN" "M"]) (set (extract-diagonals ["ABCD" "EFGH" "IJKL" "MNOP"]))))
     )
+
   (testing "extract-other-diagonals"
     (is (= (set ["A" "D" "BC"]) (set (extract-other-diagonals ["AB" "CD"]))))
     (is (= (set ["CEG" "FH" "I" "BD" "A"]) (set (extract-other-diagonals ["ABC" "DEF" "GHI"]))))

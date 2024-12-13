@@ -48,9 +48,10 @@
   (let [matrix (create-matrix-from-lines lines)]
     (if (= 2 (count matrix))
       [((matrix (dec (count matrix))) (dec (count matrix)))]
-      (vec (concat [((matrix (dec (dec (count matrix)))) (dec (count matrix)))
-                    ((matrix (dec (count matrix))) (dec (dec (count matrix))))
-                    ] (extract-trails (drop-first-line-and-column lines))))
+      (let [trails-of-lower-right (extract-trails (drop-first-line-and-column lines))]
+        (vec (concat [((matrix 1) (dec (count matrix)))
+                      ((matrix (dec (count matrix))) 1)
+                      ] trails-of-lower-right)))
       ))
   )
 
