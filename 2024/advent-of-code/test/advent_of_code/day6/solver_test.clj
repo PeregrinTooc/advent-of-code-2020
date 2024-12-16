@@ -1,7 +1,7 @@
 (ns advent-of-code.day6.solver-test
   (:require [clojure.test :refer :all]
             [clojure.string :as str]
-            [advent-of-code.day5.solver :refer :all]
+            [advent-of-code.day6.solver :refer :all]
             [advent-of-code.util.util :refer :all]))
 
 (def input (transform-file-to-list-of-lines "resources/advent_of_code/day5/input.txt"))
@@ -19,7 +19,7 @@
 
 (deftest all-tests-part1
   (testing "Acceptance Test"
-    (is (= nil (solve1 acceptance-input)))
+    (is (= 41 (solve1 acceptance-input)))
     (is (= nil (solve1 input))))
   )
 
@@ -30,8 +30,18 @@
     )
   )
 
+
+
 (deftest unit-tests
-  
+  (testing "one step at a time"
+    (is (= [".X"
+            ".."] (step [".^"
+                         ".."])))
+    (is (= [".^"
+            ".X"] (step [".X"
+                         ".^"])))
+    )
+
   )
 
 
