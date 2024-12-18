@@ -4,7 +4,7 @@
             [advent-of-code.day6.solver :refer :all]
             [advent-of-code.util.util :refer :all]))
 
-(def input (transform-file-to-list-of-lines "resources/advent_of_code/day5/input.txt"))
+(def input (transform-file-to-list-of-lines "resources/advent_of_code/day6/input.txt"))
 (def acceptance-input ["....#....."
                        ".........#"
                        ".........."
@@ -20,7 +20,7 @@
 (deftest all-tests-part1
   (testing "Acceptance Test"
     (is (= 41 (solve1 acceptance-input)))
-    (is (= nil (solve1 input))))
+    (is (= 5101 (solve1 input))))
   )
 
 (deftest all-tests-part2
@@ -56,6 +56,10 @@
 
 (def idx (comp cells-to-array transform-to-cells))
 (def read-after-step (comp cells-to-array step transform-to-cells))
+(defn step-times [n input]
+  (let [cells (transform-to-cells input)
+        ]
+    (cells-to-array (nth (iterate step cells) n))))
 
 (deftest unit-tests
   (testing "one step at a time"
@@ -71,6 +75,9 @@
     (is (= ["#."
             ">."] (read-after-step ["#."
                                     "^."])) "turns right by 90° if blocked")
+    (is (= ["#."
+            "X>"] (step-times 2 ["#."
+                                 "^."])) "turns right by 90° if blocked and then moves right on the next step")
     (is (= ["#."
             "v#"] (read-after-step ["#."
                                     ">#"])) "turns downwards if blocked to the right")
@@ -89,7 +96,49 @@
     (is (= ["#."
             "X."] (read-after-step ["#."
                                     "v."])) "leaves to the bottom if at end of map")
+    (is (= ["....#....."
+            ".........#"
+            ".........."
+            "..#......."
+            ".......#.."
+            "....^....."
+            ".#..X....."
+            "........#."
+            "#........."
+            "......#..."] (read-after-step acceptance-input)) "moves up once")
+    (is (= ["....#....."
+            ".........#"
+            ".........."
+            "..#......."
+            "....^..#.."
+            "....X....."
+            ".#..X....."
+            "........#."
+            "#........."
+            "......#..."] (step-times 2 acceptance-input)) "moves up twice")
+    (is (= ["....#....."
+            "....>....#"
+            "....X....."
+            "..#.X....."
+            "....X..#.."
+            "....X....."
+            ".#..X....."
+            "........#."
+            "#........."
+            "......#..."] (step-times 6 acceptance-input)) "moves up six times")
+    (is (= ["....#....."
+            "....XXXXv#"
+            "....X....."
+            "..#.X....."
+            "....X..#.."
+            "....X....."
+            ".#..X....."
+            "........#."
+            "#........."
+            "......#..."] (step-times 11 acceptance-input)) "turns at obstacle and moves right")
     )
+
+
   (testing "transform to cells"
     (is (= {[0 0] \X} (transform-to-cells ["X"])))
     (is (= {[0 0] \X, [0 1] \.} (transform-to-cells ["X."])))

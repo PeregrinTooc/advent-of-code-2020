@@ -18,7 +18,7 @@
   (let [next-directions {\^ \>, \> \v, \v \<, \< \^}]
     (next-directions direction)
     ))
-(defn- calculate-next-position [line column direction]
+(defn- calculate-next-position-no-cache [line column direction]
   (case direction
     \^ [(dec line) column]
     \v [(inc line) column]
@@ -27,11 +27,13 @@
     )
   )
 
+(def calculate-next-position (memoize calculate-next-position-no-cache))
+
 (defn- create-next-map [marked-position [line column] direction]
   (let [next-position (marked-position (calculate-next-position line column direction))]
     (if (= \# next-position)
       (assoc marked-position [line column] (turn direction))
-      (assoc marked-position [(dec line) column] direction)
+      (assoc marked-position (calculate-next-position line column direction) direction)
       )
     )
   )
@@ -73,7 +75,7 @@
 (defn solve1 [input]
   (let [lines-as-cells (transform-to-cells input)
         all-steps (repeat-until-stable step (list lines-as-cells))]
-    (filter (fn [k v]) all-steps)
+    (count (filter #(= \X %) (vals (first all-steps))))
     )
   )
 
