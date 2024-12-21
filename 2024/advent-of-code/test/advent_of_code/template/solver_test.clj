@@ -4,7 +4,8 @@
             [advent-of-code.util.util :refer :all]))
 
 (def input (transform-file-to-list-of-lines "resources/advent_of_code/template/input.txt"))
-
+(def acceptance-input
+  [])
 
 (deftest "acceptance testing")
 (deftest "unit testing")

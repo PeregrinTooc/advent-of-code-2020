@@ -1,4 +1,4 @@
-(ns advent-of-code.template.solver-test
+(ns advent-of-code.day7.solver-test
   (:require [clojure.test :refer :all]
             [advent-of-code.template.solver :refer :all]
             [advent-of-code.util.util :refer :all]))

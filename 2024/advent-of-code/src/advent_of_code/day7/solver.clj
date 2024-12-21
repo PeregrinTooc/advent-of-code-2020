@@ -1,4 +1,4 @@
-(ns advent-of-code.template.solver
+(ns advent-of-code.day7.solver
   (:require [clojure.string :as str]))
 
 
