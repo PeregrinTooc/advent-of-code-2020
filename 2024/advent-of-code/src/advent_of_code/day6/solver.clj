@@ -1,19 +1,9 @@
 (ns advent-of-code.day6.solver
-  (:require [clojure.string :as str]))
+  (:require [advent-of-code.util.util :refer :all]))
 
 
 
-(defn- line-to-cells [line-index line]
-  (map-indexed (fn [column-index cell-value]
-                 [[line-index column-index] cell-value])
-               line))
 
-(defn- add-line-to-matrix [matrix [line-index line]]
-  (into matrix (line-to-cells line-index line)))
-
-(defn transform-to-cells [lines]
-  (let [indexed-lines (map-indexed vector lines)]
-    (reduce add-line-to-matrix {} indexed-lines)))
 (defn- turn [direction]
   (let [next-directions {\^ \>, \> \v, \v \<, \< \^}]
     (next-directions direction)
