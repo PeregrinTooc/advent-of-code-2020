@@ -18,8 +18,15 @@
   )
 (deftest unit-testing
   (testing "helper functions"
-    (is (= 0  (mod (+ 52 48) 100 )))
-    (is ( = [+ 10] (parse-command "R10")) )
+    (is (= 0 (mod (+ 52 48) 100)))
+    (is (= [+ 10] (parse-command "R10")))
+    (is (= 0 (passes-zero 1 2)))
+    (is (= 1 (passes-zero 1 101)))
+    (is (= 1 (passes-zero 99 101)))
+    (is (= 1 (passes-zero 50 -18)))
+    (is (= 2 (passes-zero -101 101)))
+    (is (= 2 (passes-zero -201 -1)))
+    (is (= -1 (quot -101 100)))
     )
 
   )
