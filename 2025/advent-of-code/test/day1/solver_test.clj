@@ -9,17 +9,19 @@
 (deftest acceptance-testing
   (testing "part 1"
     (is (= 3 (solve1 acceptance-input)))
-    ;(is (= nil (solve1 input)))
+    (is (= 1086 (solve1 input)))
     )
   (testing "part 2"
-    (is (= nil (solve2 acceptance-input)))
-    (is (= nil (solve2 input)))
+    (is (= 6 (solve2 acceptance-input)))
+    ;(is (= nil (solve2 input)))
     )
   )
 (deftest unit-testing
   (testing "helper functions"
     (is (= 0  (mod (+ 52 48) 100 )))
+    (is ( = [+ 10] (parse-command "R10")) )
     )
+
   )
 
 

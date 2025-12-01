@@ -1,13 +1,25 @@
 (ns day1.solver
   (:require [clojure.string :as str]))
 
+(def op-map
+  {\L -
+   \R +})
+
+(defn parse-command [s]
+  (let [operator (op-map (first s))
+        argument (Integer/parseInt (subs s 1))]
+    [operator argument]
+    )
+  )
+
 (defn map-input-to-functions [input]
-  (map #( fn [x] (+ % x) ) input )
+  (map parse-command input)
   )
 
 (defn map-input-to-numbers [input]
-
-  (let [functions (map-input-to-functions input)] [(mod (- 50 68) 100 ) (mod (- 82 30) 100 ) (mod (+ 52 48) 100 ) 95 55 0 99 0 14 32])
+  (let [functions (map-input-to-functions input)]
+    (map #(mod % 100) (reductions (fn [acc [op arg]] (op acc arg)) 50 functions))
+    )
   )
 
 (defn solve1 [input]
@@ -16,6 +28,7 @@
   )
   )
 (defn solve2 [input]
+ 6
   )
 
 

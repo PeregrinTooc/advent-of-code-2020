@@ -3,3 +3,4 @@
 .idea
 out
 2023/node_modules/
+**/.clj-kondo/**
