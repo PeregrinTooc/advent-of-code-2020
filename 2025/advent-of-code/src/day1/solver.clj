@@ -1,13 +1,12 @@
-(ns day1.solver
-  (:require [clojure.string :as str]))
+(ns day1.solver)
 
 (def op-map
   {\L -
    \R +})
 
-(defn parse-command [s]
-  (let [operator (op-map (first s))
-        argument (Integer/parseInt (subs s 1))]
+(defn parse-command [operation]
+  (let [operator (op-map (first operation))
+        argument (Integer/parseInt (subs operation 1))]
     [operator argument]
     )
   )
@@ -28,24 +27,33 @@
     )
   )
 
-(defn passes-zero [n m]
-  (let [a (quot n 100) b (quot m 100)]
-    (abs (- a b))
+(defn count-zeros [operator argument start positions]
+  (if (zero? argument)
+    (count (filter zero? positions))
+    (recur operator
+           (dec argument)
+           (operator start 1)
+           (cons (mod (operator start 1) 100) positions))))
+
+
+(defn apply-function-and-count-zeros [[operator argument] start]
+  [(operator start argument) (count-zeros operator argument start [])]
+  )
+
+(defn apply-input-and-count-zeroes [start operations acc]
+  (let [[operation & tail] operations
+        [next zeroes] (apply-function-and-count-zeros (parse-command operation) start)
+        ]
+    (if (empty? tail)
+      (+ acc zeroes)
+      (recur next tail (+ acc zeroes))
+      )
     )
   )
 
-(defn apply-input-and-count-rotations [input]
-  (let [functions (map-input-to-functions input)
-        no-modulo-sequence (reductions (fn [acc [op arg]] (op acc arg)) 50 functions)]
-    (println no-modulo-sequence)
-    (println (rest no-modulo-sequence))
-    (println (map passes-zero no-modulo-sequence (rest no-modulo-sequence)))
-    (map passes-zero no-modulo-sequence (rest no-modulo-sequence))
-    )
-  )
 
 (defn solve2 [input]
-  (+ (reduce + (apply-input-and-count-rotations input)) (solve1 input))
+  (apply-input-and-count-zeroes 50 input 0)
   )
 
 
