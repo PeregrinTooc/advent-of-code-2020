@@ -3,8 +3,8 @@
             [template.solver :refer :all]
             [util.util :refer :all]))
 
-(def input (transform-file-to-list-of-lines "resources/advent_of_code/template/input.txt"))
-(def acceptance-input (transform-file-to-list-of-lines "resources/advent_of_code/template/acceptance-input.txt"))
+(def input (transform-file-to-list-of-lines "resources/template/input.txt"))
+(def acceptance-input (transform-file-to-list-of-lines "resources/template/acceptance-input.txt"))
 
 (deftest acceptance-testing
   (testing "part 1"
