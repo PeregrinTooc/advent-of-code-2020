@@ -32,19 +32,21 @@
   (reduce + (identify-invalid-ids (create-ranges (first input)) is-invalid-id?))
   )
 (defn is-invalid-id-part2? [id]
-  (or
-    (is-invalid-id? id)
-    (= id 111)
-    (= id 999)
-    (= id 565656)
-    (= id 824824824)
-    (= id 2121212121)
+  (let [id-as-seq (seq (str id))
+        invalid-tests (map (fn [n] (let [chunks (partition 2 n id-as-seq)
+                                         base (first chunks)]
+                                     (every? #(= base %) chunks))) (range 1 (inc (quot (count id-as-seq) 2))))]
+    (println id-as-seq)
+    (println (partition 2 2 id-as-seq))
+    (println invalid-tests)
+    (reduce #(or %1 %2) false invalid-tests)
+
     )
   )
 
 (defn solve2 [input]
-  ((reduce + (identify-invalid-ids (create-ranges (first input)) is-invalid-id-part2?)))
-  4174379265
+  (reduce + (identify-invalid-ids (create-ranges (first input)) is-invalid-id-part2?))
+
   )
 
 

@@ -13,17 +13,14 @@
     )
   (testing "part 2"
     (is (= 4174379265 (solve2 acceptance-input)))
-    ;(is (= nil (solve2 input)))
+    (is (= nil (solve2 input)))
     )
   )
 (deftest unit-testing
   (testing "helper functions"
     (is (= [[11 22] [0 1]] (create-ranges "11-22,0-1")))
-    (is (is-invalid-id-part2? 11))
-    (is (is-invalid-id-part2? 111))
-    (is (is-invalid-id-part2? 22))
     (is (is-invalid-id-part2? 99))
-    (is (is-invalid-id-part2? 999))
+    (is (is-invalid-id-part2? 111))
     (is (is-invalid-id-part2? 1010))
     (is (is-invalid-id-part2? 1188511885))
     (is (is-invalid-id-part2? 222222))
