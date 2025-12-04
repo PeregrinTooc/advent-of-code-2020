@@ -8,8 +8,8 @@
 
 (deftest acceptance-testing
   (testing "part 1"
-    (is (= nil (solve1 acceptance-input)))
-    (is (= nil (solve1 input)))
+    (is (= 357 (solve1 acceptance-input)))
+    ;(is (= nil (solve1 input)))
     )
   (testing "part 2"
     (is (= nil (solve2 acceptance-input)))
@@ -18,7 +18,8 @@
   )
 (deftest unit-testing
   (testing "helper functions"
-    (is (= 0 (+ 0 0)))
+    (is (= 98 (determine-highest-joltage "987")))
+    ;(is (= [98] (determine-highest-joltage "978")))
     )
   )
 
