@@ -13,7 +13,7 @@
     )
   (testing "part 2"
     (is (= 4174379265 (solve2 acceptance-input)))
-    (is (= nil (solve2 input)))
+    (is (= 48631958998 (solve2 input)))
     )
   )
 (deftest unit-testing
@@ -29,6 +29,7 @@
     (is (is-invalid-id-part2? 565656))
     (is (is-invalid-id-part2? 824824824))
     (is (is-invalid-id-part2? 2121212121))
+    (is (false? (is-invalid-id-part2? 20202)))
     )
   )
 
