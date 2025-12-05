@@ -1,10 +1,10 @@
-(ns day4.solver-test
+(ns day6.solver-test
   (:require [clojure.test :refer :all]
-            [day4.solver :refer :all]
+            [day6.solver :refer :all]
             [util.util :refer :all]))
 
-(def input (transform-file-to-list-of-lines "resources/day4/input.txt"))
-(def acceptance-input (transform-file-to-list-of-lines "resources/day4/acceptance-input.txt"))
+(def input (transform-file-to-list-of-lines "resources/day6/input.txt"))
+(def acceptance-input (transform-file-to-list-of-lines "resources/day6/acceptance-input.txt"))
 
 (deftest acceptance-testing
   (testing "part 1"

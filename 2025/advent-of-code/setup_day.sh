@@ -15,6 +15,6 @@ touch "resources/day$n/input.txt"
 touch "resources/day$n/acceptance-input.txt"
 
 # Replace 'template' with 'day$n' in all new files
-find "test/day$n" "src/day$n" -type f -exec sed -i "s/template/day$n/g" {} +
+find "test/day$n" "src/day$n" -type f -exec sed -i '' "s/template/day$n/g" {} +
 
 echo "Setup for day $n completed."
