@@ -2,12 +2,14 @@
   (:require [clojure.string :as str]))
 
 (defn determine-joltages [batterie-bank]
-  (if (= count batterie-bank 2)
+  (if (= (count batterie-bank) 2)
     [(Integer/parseInt (str/join (take 2 batterie-bank)))]
-    [98 97 78]
+    (let [[head & tail] batterie-bank]
+      (concat (map #(Integer/parseInt %) (map #(str/join [head %]) tail)) (determine-joltages tail))
+      )
     )
-
   )
+
 
 (defn determine-highest-joltage
   ([batterie-bank]
@@ -16,7 +18,7 @@
   )
 
 (defn solve1 [input]
-  (apply + [(determine-highest-joltage (first input)) 89 78 92])
+  (reduce + (map determine-highest-joltage input))
   )
 
 
