@@ -12,15 +12,17 @@
     (is (= 17613 (solve1 input)))
     )
   (testing "part 2"
-    (is (= nil (solve2 acceptance-input)))
-    (is (= nil (solve2 input)))
+    (is (= 3121910778619 (solve2 acceptance-input)))
+    (is (= 175304218462560 (solve2 input)))
     )
   )
 (deftest unit-testing
   (testing "helper functions"
-    (is (= 98 (determine-highest-joltage "987")))
-    (is (= 45 (determine-highest-joltage "45")))
-    (is (= 98 (determine-highest-joltage "978")))
+    (is (= 98 (determine-highest-joltage 2 "987")))
+    (is (= 45 (determine-highest-joltage 2 "45")))
+    (is (= 98 (determine-highest-joltage 2 "978")))
+    (is (= 987654321111 (determine-highest-joltage 12 "987654321111111")))
+    (is (= 987 (determine-highest-joltage 3 "9876")))
     )
   )
 
