@@ -8,17 +8,19 @@
 
 (deftest acceptance-testing
   (testing "part 1"
-    (is (= nil (solve1 acceptance-input)))
-    (is (= nil (solve1 input)))
+    (is (= 13 (solve1 acceptance-input)))
+    (is (= 1409 (solve1 input)))
     )
   (testing "part 2"
-    (is (= nil (solve2 acceptance-input)))
-    (is (= nil (solve2 input)))
+    (is (= 43 (solve2 acceptance-input)))
+    (is (= 8366 (solve2 input)))
     )
   )
 (deftest unit-testing
   (testing "helper functions"
-    (is (= 0 (+ 0 0)))
+    (is (= [[\a \b \c] [\d \e \f] [\g \h \i]] (transform-to-grid ["abc" "def" "ghi"])))
+    (is (nil? (get-in [[1] [1]] [-1 -1])))
+    (is (= 1 (get-in [[1 2] [3 4]] [0 0])))
     )
   )
 
