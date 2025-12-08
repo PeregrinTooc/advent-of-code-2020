@@ -25,12 +25,20 @@
     (count fresh-goods))
   )
 
+(defn merge-ranges [merged-ranges [low high]]
+  (let [[last-low last-high] (last merged-ranges)]
+    (cond (>= last-high high) merged-ranges
+          (and (<= (dec low) last-high) (< last-high high)) (conj (vec (drop-last merged-ranges)) [last-low high])
+          :else (conj merged-ranges [low high]))))
+
 (defn solve2 [input]
   (let [fresh-id-ranges-strings (first (parse-db-file input))
         fresh-id-ranges (map transform-range-string-to-vec fresh-id-ranges-strings)
         sorted-ranges (sort-by first fresh-id-ranges)
+        merged-ranges (reduce merge-ranges [(first sorted-ranges)] (rest sorted-ranges))
         ]
-    (count (set (flatten (map (fn [[low high]] (range low (inc high))) fresh-id-ranges)))))
+    (reduce (fn [acc [low high]] (+ 1 acc (- high low))) 0 merged-ranges)
+    )
   )
 
 

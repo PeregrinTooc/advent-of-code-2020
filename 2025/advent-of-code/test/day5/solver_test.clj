@@ -18,7 +18,11 @@
   )
 (deftest unit-testing
   (testing "helper functions"
-    (is (= 0 (+ 0 0)))
+    (is (= [[0 10]] (merge-ranges [[0 10]] [1 9])))
+    (is (= [[0 11]] (merge-ranges [[0 10]] [1 11])))
+    (is (= [[0 11]] (merge-ranges [[0 10]] [10 11])))
+    (is (= [[0 11]] (merge-ranges [[0 10]] [11 11])))
+    (is (= [[0 1] [3 4]] (merge-ranges [[0 1]] [3 4])))
     )
   )
 
