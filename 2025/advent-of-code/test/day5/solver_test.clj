@@ -8,11 +8,11 @@
 
 (deftest acceptance-testing
   (testing "part 1"
-    (is (= nil (solve1 acceptance-input)))
-    (is (= nil (solve1 input)))
+    (is (= 3 (solve1 acceptance-input)))
+    (is (= 744 (solve1 input)))
     )
   (testing "part 2"
-    (is (= nil (solve2 acceptance-input)))
+    (is (= 14 (solve2 acceptance-input)))
     (is (= nil (solve2 input)))
     )
   )

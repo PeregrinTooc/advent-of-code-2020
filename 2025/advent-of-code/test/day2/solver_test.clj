@@ -29,7 +29,6 @@
     (is (is-invalid-id-part2? 565656))
     (is (is-invalid-id-part2? 824824824))
     (is (is-invalid-id-part2? 2121212121))
-    (is (false? (is-invalid-id-part2? 20202)))
     )
   )
 

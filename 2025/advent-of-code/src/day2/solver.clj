@@ -1,10 +1,6 @@
 (ns day2.solver
-  (:require [clojure.string :as str]))
-(defn transform-range-string-to-vec [s]
-  (let [parts (str/split s #"-")]
-    [(Long/parseLong (first parts)) (Long/parseLong (last parts))]
-    )
-  )
+  (:require [clojure.string :as str]
+            [util.util :refer [transform-range-string-to-vec]]))
 
 (defn create-ranges [input]
   (map transform-range-string-to-vec (str/split input #","))
