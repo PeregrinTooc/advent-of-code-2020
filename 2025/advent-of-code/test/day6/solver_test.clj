@@ -8,7 +8,7 @@
 
 (deftest acceptance-testing
   (testing "part 1"
-    (is (= nil (solve1 acceptance-input)))
+    (is (= 4277556 (solve1 acceptance-input)))
     (is (= nil (solve1 input)))
     )
   (testing "part 2"
@@ -21,5 +21,4 @@
     (is (= 0 (+ 0 0)))
     )
   )
-
 
