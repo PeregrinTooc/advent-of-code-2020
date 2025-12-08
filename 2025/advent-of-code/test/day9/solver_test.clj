@@ -1,0 +1,25 @@
+(ns day9.solver-test
+  (:require [clojure.test :refer :all]
+            [day9.solver :refer :all]
+            [util.util :refer :all]))
+
+(def input (transform-file-to-list-of-lines "resources/day9/input.txt"))
+(def acceptance-input (transform-file-to-list-of-lines "resources/day9/acceptance-input.txt"))
+
+(deftest acceptance-testing
+  (testing "part 1"
+    (is (= nil (solve1 acceptance-input)))
+    (is (= nil (solve1 input)))
+    )
+  (testing "part 2"
+    (is (= nil (solve2 acceptance-input)))
+    (is (= nil (solve2 input)))
+    )
+  )
+(deftest unit-testing
+  (testing "helper functions"
+    (is (= 0 (+ 0 0)))
+    )
+  )
+
+
