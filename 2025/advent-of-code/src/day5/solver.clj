@@ -11,7 +11,6 @@
 (defn fresh? [fresh-id-ranges-strings id]
   (let [fresh-id-ranges (map transform-range-string-to-vec fresh-id-ranges-strings)]
     (some #(<= (first %) id (last %)) fresh-id-ranges)
-    ;(some #(= id %) [5 11 17])
     )
   )
 

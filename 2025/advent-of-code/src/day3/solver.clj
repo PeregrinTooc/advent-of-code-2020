@@ -1,8 +1,5 @@
 (ns day3.solver
   (:require [clojure.string :as str]))
-(defn map-to-integer [coll]
-  (map #(Long/parseLong %) coll)
-  )
 
 (defn max-subsequence [k s]
   "Return the lexicographically / numerically largest subsequence of length k
