@@ -18,8 +18,17 @@
   )
 (deftest unit-testing
   (testing "helper functions"
-    (is (= [3 12] (convert-to-cephapolod ["1" "23"])))
-    (is (= [356 24 1] (convert-to-cephapolod ["123" "45" "6"])))
+    (is (= [356 24 1] (convert-to-cephapolod ["123" " 45" "  6"])))
+    (is (= [8 248 369] (convert-to-cephapolod ["328" "64 " "98 "])))
+    (is (= [13 2] (convert-to-cephapolod ["1" "23"])))
+    (is (= [["123" "328" " 51" "64 "]
+            [" 45" "64 " "387" "23 "]
+            ["  6" "98 " "215" "314"]
+            ["*" "+" "*" "+"]]
+           (split-at-blank-column-and-rotate ["123 328  51 64 "
+                                              " 45 64  387 23 "
+                                              "  6 98  215 314"
+                                              "*   +   *   +"])))
     )
   )
 

@@ -13,15 +13,27 @@
   )
 
 (defn convert-to-cephapolod [numbers]
-  (println (vec (map (comp vec seq) numbers)))
-  [356 24 1]
-  )
+  (letfn [(transpose-all [already-transposed left-to-transpose]
+            (let [transposed (reduce (fn [s character-sequence]
+                                       (str s (first character-sequence))) "" left-to-transpose)
+                  rests (map #(rest %) left-to-transpose)]
+              (if (every? empty? left-to-transpose)
+                already-transposed
+                (recur (conj already-transposed transposed) rests)))
+            )]
+
+    (let [reversed-numbers-as-char-seqs (vec (map (comp rseq vec seq) numbers))
+          transposed (transpose-all [] reversed-numbers-as-char-seqs)]
+      (vec (map #(Long/parseLong (str/trim %)) transposed))
+      )
+    ))
 
 (defn solve-problem-cephalopod-math [grid column-id]
-  (let [traditional-numbers (vec (map (fn [row] ((get row column-id))) (butlast grid)))
-        cephapolod-numbers (convert-to-cephapolod [traditional-numbers])
+  (let [traditional-numbers (vec (map (fn [row] (get row column-id)) (butlast grid)))
+        cephapolod-numbers (convert-to-cephapolod traditional-numbers)
         operator (get (last grid) column-id)
         f (if (= operator "*") * +)]
+    (println cephapolod-numbers operator)
     (apply f cephapolod-numbers))
   )
 
@@ -31,10 +43,23 @@
     (apply + (map (partial solve-problem-traditional-math grid) (range number-of-columns)))
     )
   )
+(defn split-at-blank-column-and-rotate [input]
+  (let [sequences (vec (map vec (butlast input)))
+        rotated (vec (apply map vector sequences))]
+    (println sequences)
+    (println rotated)
+    (println (map #(apply str %) rotated))
+    
+    ()
+    (conj [["123" "328" " 51" "64 "]
+           [" 45" "64 " "387" "23 "]
+           ["  6" "98 " "215" "314"]]
+          (split-at-whitespaces (last input))))
+  )
 
 (defn solve2 [input]
-  (let [grid (vec (map split-at-whitespaces input))]
-    (apply + [(solve-problem-cephalopod-math grid 0) 625 3253600 1058])
+  (let [grid (split-at-blank-column-and-rotate input)]
+    (apply + [(solve-problem-cephalopod-math grid 0) (solve-problem-cephalopod-math grid 1) 3253600 1058])
     )
   )
 
