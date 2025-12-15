@@ -1,6 +1,7 @@
 (ns day6.solver-test
   (:require [clojure.test :refer :all]
             [day6.solver :refer :all]
+            [clojure.string :as str]
             [util.util :refer :all]))
 
 (def input (transform-file-to-list-of-lines "resources/day6/input.txt"))
@@ -19,11 +20,14 @@
 (deftest unit-testing
   (testing "helper functions"
     (is (= [356 24 1] (convert-to-cephapolod ["123" " 45" "  6"])))
+    (is (= "" (str/trim "     ")))
+    (is (= "" (str/trim "     ")))
     (is (= [8 248 369] (convert-to-cephapolod ["328" "64 " "98 "])))
     (is (= [13 2] (convert-to-cephapolod ["1" "23"])))
-    (is (= [["123" "328" " 51" "64 "]
-            [" 45" "64 " "387" "23 "]
-            ["  6" "98 " "215" "314"]
+    (is (= [["1" "24" "356"]
+            ["369" "248" "8"]
+            ["32" "581" "175"]
+            ["623" "431" "4"]
             ["*" "+" "*" "+"]]
            (split-at-blank-column-and-rotate ["123 328  51 64 "
                                               " 45 64  387 23 "

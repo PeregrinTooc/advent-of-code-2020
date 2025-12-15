@@ -33,7 +33,6 @@
         cephapolod-numbers (convert-to-cephapolod traditional-numbers)
         operator (get (last grid) column-id)
         f (if (= operator "*") * +)]
-    (println cephapolod-numbers operator)
     (apply f cephapolod-numbers))
   )
 
@@ -45,15 +44,9 @@
   )
 (defn split-at-blank-column-and-rotate [input]
   (let [sequences (vec (map vec (butlast input)))
-        rotated (vec (apply map vector sequences))]
-    (println sequences)
-    (println rotated)
-    (println (map #(apply str %) rotated))
-    
-    ()
-    (conj [["123" "328" " 51" "64 "]
-           [" 45" "64 " "387" "23 "]
-           ["  6" "98 " "215" "314"]]
+        rotated (vec (apply map vector sequences))
+        joined-again (map #(str/split % #";") (str/split (str/join ";" (map str/trim (map #(apply str %) rotated))) #";;"))]
+    (conj (vec joined-again)
           (split-at-whitespaces (last input))))
   )
 
