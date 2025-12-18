@@ -13,17 +13,13 @@
     (is (= 5381996914800 (solve1 input)))
     )
   (testing "part 2"
-    (is (= 3263827 (solve2 acceptance-input)))
-    ;(is (= nil (solve2 input)))
+    ;not working due to the removal of the needed trailing blanks in the txt file
+    ;(is (= 3263827 (solve2 acceptance-input)))
+    (is (= 9627174150897 (solve2 input)))
     )
   )
 (deftest unit-testing
   (testing "helper functions"
-    (is (= [356 24 1] (convert-to-cephapolod ["123" " 45" "  6"])))
-    (is (= "" (str/trim "     ")))
-    (is (= "" (str/trim "     ")))
-    (is (= [8 248 369] (convert-to-cephapolod ["328" "64 " "98 "])))
-    (is (= [13 2] (convert-to-cephapolod ["1" "23"])))
     (is (= [["1" "24" "356"]
             ["369" "248" "8"]
             ["32" "581" "175"]

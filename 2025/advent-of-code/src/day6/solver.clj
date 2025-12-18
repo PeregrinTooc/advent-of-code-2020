@@ -12,28 +12,10 @@
     )
   )
 
-(defn convert-to-cephapolod [numbers]
-  (letfn [(transpose-all [already-transposed left-to-transpose]
-            (let [transposed (reduce (fn [s character-sequence]
-                                       (str s (first character-sequence))) "" left-to-transpose)
-                  rests (map #(rest %) left-to-transpose)]
-              (if (every? empty? left-to-transpose)
-                already-transposed
-                (recur (conj already-transposed transposed) rests)))
-            )]
-
-    (let [reversed-numbers-as-char-seqs (vec (map (comp rseq vec seq) numbers))
-          transposed (transpose-all [] reversed-numbers-as-char-seqs)]
-      (vec (map #(Long/parseLong (str/trim %)) transposed))
-      )
-    ))
-
 (defn solve-problem-cephalopod-math [grid column-id]
-  (let [traditional-numbers (vec (map (fn [row] (get row column-id)) (butlast grid)))
-        cephapolod-numbers (convert-to-cephapolod traditional-numbers)
-        operator (get (last grid) column-id)
+  (let [operator (get (last grid) column-id)
         f (if (= operator "*") * +)]
-    (apply f cephapolod-numbers))
+    (apply f (map #(Integer/parseInt %) (get grid column-id))))
   )
 
 (defn solve1 [input]
@@ -51,8 +33,9 @@
   )
 
 (defn solve2 [input]
-  (let [grid (split-at-blank-column-and-rotate input)]
-    (apply + [(solve-problem-cephalopod-math grid 0) (solve-problem-cephalopod-math grid 1) 3253600 1058])
+  (let [grid (split-at-blank-column-and-rotate input)
+        number-of-columns (count (first (map split-at-whitespaces input)))]
+    (apply + (map (partial solve-problem-cephalopod-math grid) (range number-of-columns)))
     )
   )
 
